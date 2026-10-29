@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>Dulcito - Ponche Crema & Dulces Tradicionales</title>
+    <meta name="description" content="Tienda virtual artesanal de ponche crema tradicional, dulce de leche de olla y dulces criollos hechos con amor y sabor a hogar." />
+    
+    <!-- Mobile PWA & Theme Configuration -->
+    <meta name="theme-color" content="#1C0D06" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Dulcito" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/assets/aistudio/sello_circle_exact.png" />
+    <link rel="icon" type="image/png" href="/assets/aistudio/sello_circle_exact.png" />
+
+    <!-- OpenGraph / Social Meta -->
+    <meta property="og:title" content="Dulcito - Ponche Crema & Dulces Tradicionales" />
+    <meta property="og:description" content="Tienda virtual artesanal de ponche crema tradicional, dulce de leche de olla y dulces criollos hechos con amor y sabor a hogar." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Font Preconnect & High-Priority Loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Great+Vibes&family=Alex+Brush&family=Allura&family=Dancing+Script:wght@600;700&family=Caveat:wght@600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,400;1,9..144,600;1,9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="bg-[#1A0B05] text-[#2C1810] antialiased selection:bg-[#EAD7C3] selection:text-[#3D1E10]">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      // Register Dulcito high-speed Service Worker on mobile devices
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
