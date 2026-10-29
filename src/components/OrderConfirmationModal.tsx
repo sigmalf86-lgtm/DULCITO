@@ -1,7 +1,23 @@
 import React, { useState } from 'react';
-import { Check, MessageCircle, Copy, ArrowRight, Heart, CreditCard, ShieldCheck, AlertCircle } from 'lucide-react';
+import { 
+  Check, 
+  MessageCircle, 
+  Copy, 
+  ArrowRight, 
+  Heart, 
+  CreditCard, 
+  ShieldCheck, 
+  AlertCircle,
+  Package,
+  Truck,
+  CheckCircle2,
+  Clock,
+  Sparkles
+} from 'lucide-react';
 import { PlacedOrder } from '../types';
 import { NewAppBadgeLogo } from './BrandLogo';
+
+export type OrderTrackingStage = 'preparando' | 'en_camino' | 'entregado';
 
 interface OrderConfirmationModalProps {
   order: PlacedOrder | null;
@@ -14,8 +30,44 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [copiedBank, setCopiedBank] = useState<string | null>(null);
+  const [trackingStage, setTrackingStage] = useState<OrderTrackingStage>(order?.status || 'preparando');
 
   if (!order) return null;
+
+  const trackingStagesList = [
+    {
+      id: 'preparando' as const,
+      label: 'Preparando',
+      stepNumber: 1,
+      icon: Package,
+      statusBadge: 'En Taller Artesanal',
+      badgeClass: 'bg-[#FFF3D6] text-[#9A5B18] border-[#E8C589]',
+      description: 'Nuestros maestros artesanos están elaborando tu pedido fresco, embotellando y atando a mano el clásico lazo de mecatillo con canela y estrellas de anís.',
+      note: 'En preparación en taller (Hoy)',
+    },
+    {
+      id: 'en_camino' as const,
+      label: 'En camino',
+      stepNumber: 2,
+      icon: Truck,
+      statusBadge: 'Despacho en Tránsito',
+      badgeClass: 'bg-[#EBF5FB] text-[#1B6F9A] border-[#A8D3EB]',
+      description: `Tu paquete ha salido del taller protegido en caja acolchada y sellada, en ruta de entrega hacia ${order.customer.city || 'tu destino'}.`,
+      note: 'Despacho activo con chofer asignado',
+    },
+    {
+      id: 'entregado' as const,
+      label: 'Entregado',
+      stepNumber: 3,
+      icon: CheckCircle2,
+      statusBadge: '¡Entregado con Éxito!',
+      badgeClass: 'bg-[#E8F5E9] text-[#2E7D32] border-[#A5D6A7]',
+      description: '¡Tu pedido artesanal ha sido entregado en tus manos! Recuerda agitar bien tu botella de Ponche Crema antes de degustar y mantenerla bien fría.',
+      note: '¡Gracias por compartir nuestras tradiciones!',
+    },
+  ];
+
+  const activeStageObj = trackingStagesList.find((s) => s.id === trackingStage) || trackingStagesList[0];
 
   const handleCopyBank = (text: string, id: string) => {
     navigator.clipboard.writeText(text);
@@ -42,6 +94,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     msg += `👤 *Cliente:* ${order.customer.fullName}\n`;
     msg += `📞 *Teléfono:* ${order.customer.phone}\n`;
     msg += `📍 *Dirección:* ${order.customer.address}, ${order.customer.city}\n`;
+    msg += `📍 *Estado de Seguimiento:* ${activeStageObj.label} (${activeStageObj.statusBadge})\n`;
     if (order.customer.notes) {
       msg += `📝 *Nota:* ${order.customer.notes}\n`;
     }
@@ -103,6 +156,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     plainText += `Teléfono: ${order.customer.phone}\n`;
     plainText += `Total: $${order.total.toFixed(2)}\n`;
     plainText += `Dirección: ${order.customer.address}, ${order.customer.city}\n`;
+    plainText += `Estado: ${activeStageObj.label} (${activeStageObj.statusBadge})\n`;
     if (order.customer.paymentMethod === 'pago_movil') {
       plainText += `Pago Móvil:\n• Mercantil: 0105 / 04248830997 / 17320644\n• BNC: 0191 / 04145089082 / 17320644\n`;
     } else if (['crixto', 'binance', 'airtm'].includes(order.customer.paymentMethod)) {
@@ -145,6 +199,142 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
           <p className="text-xs text-[#78543E] mt-1 max-w-xs leading-relaxed">
             Hemos reservado tus productos artesanales. Estamos listos para preparar tu paquete con su lazo de mecatillo.
           </p>
+        </div>
+
+        {/* Visual Order Tracking Section */}
+        <div className="mb-6 p-4 sm:p-5 bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#F5ECE1] rounded-2xl border-2 border-[#D4AF37]/50 shadow-sm text-xs">
+          {/* Tracker Header with Pulsing Live Status */}
+          <div className="flex items-center justify-between pb-3 border-b border-[#EADCCE] mb-4">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2.5 w-2.5">
+                <span
+                  className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${
+                    trackingStage === 'entregado'
+                      ? 'bg-[#2E7D32]'
+                      : trackingStage === 'en_camino'
+                      ? 'bg-[#1976D2]'
+                      : 'bg-[#E5A93C]'
+                  }`}
+                />
+                <span
+                  className={`relative inline-flex rounded-full h-2.5 w-2.5 ${
+                    trackingStage === 'entregado'
+                      ? 'bg-[#2E7D32]'
+                      : trackingStage === 'en_camino'
+                      ? 'bg-[#1976D2]'
+                      : 'bg-[#D48806]'
+                  }`}
+                />
+              </span>
+              <span className="font-serif font-black text-xs sm:text-sm text-[#3D2214] tracking-wide">
+                Seguimiento de tu Pedido Artesanal
+              </span>
+            </div>
+            <span
+              className={`px-2.5 py-0.5 rounded-full border text-[10px] font-bold shadow-2xs ${activeStageObj.badgeClass}`}
+            >
+              {activeStageObj.statusBadge}
+            </span>
+          </div>
+
+          {/* Stepper Timeline */}
+          <div className="relative mb-5 px-3 pt-1">
+            {/* Background Track Line */}
+            <div className="absolute top-6 left-8 right-8 h-1 bg-[#E2D1BF] rounded-full z-0" />
+            {/* Active Colored Fill Line */}
+            <div
+              className="absolute top-6 left-8 h-1 bg-gradient-to-r from-[#D4AF37] via-[#B8621B] to-[#2E7D32] rounded-full z-0 transition-all duration-500 ease-out"
+              style={{
+                width:
+                  trackingStage === 'preparando'
+                    ? '0%'
+                    : trackingStage === 'en_camino'
+                    ? '50%'
+                    : 'calc(100% - 4rem)',
+              }}
+            />
+
+            {/* 3 Step Nodes */}
+            <div className="relative z-10 flex items-center justify-between">
+              {trackingStagesList.map((st, idx) => {
+                const IconComponent = st.icon;
+                const isCurrent = st.id === trackingStage;
+                const isCompleted =
+                  trackingStage === 'entregado' ||
+                  (trackingStage === 'en_camino' && idx === 0);
+
+                return (
+                  <button
+                    key={st.id}
+                    type="button"
+                    onClick={() => setTrackingStage(st.id)}
+                    className="flex flex-col items-center group cursor-pointer focus:outline-none transition-transform active:scale-95"
+                    title={`Ver estado: ${st.label}`}
+                  >
+                    {/* Circle Node */}
+                    <div
+                      className={`w-11 h-11 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ${
+                        isCurrent
+                          ? 'bg-gradient-to-tr from-[#3D2214] via-[#522914] to-[#3D2214] text-[#F3E2B8] ring-4 ring-[#D4AF37]/50 scale-110 shadow-md'
+                          : isCompleted
+                          ? 'bg-[#2E7D32] text-white ring-2 ring-[#A5D6A7]'
+                          : 'bg-white border-2 border-[#D5BEA4] text-[#A89078] hover:border-[#B8621B]'
+                      }`}
+                    >
+                      {isCompleted && !isCurrent ? (
+                        <Check className="w-5 h-5 text-white stroke-[2.5]" />
+                      ) : (
+                        <IconComponent className="w-5 h-5" />
+                      )}
+                    </div>
+
+                    {/* Stage Label */}
+                    <span
+                      className={`mt-2 text-xs font-bold text-center leading-tight transition-colors ${
+                        isCurrent
+                          ? 'text-[#3D2214] font-black'
+                          : isCompleted
+                          ? 'text-[#2E7D32]'
+                          : 'text-[#8C6044]'
+                      }`}
+                    >
+                      {st.label}
+                    </span>
+                    <span className="text-[10px] text-[#A8876F] hidden sm:block">
+                      {st.statusBadge}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Active Stage Detail Description Box */}
+          <div className="p-3.5 bg-white/95 rounded-xl border border-[#E3D4C0] shadow-2xs space-y-2">
+            <div className="space-y-1">
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <span className="font-bold text-[#3D2214] text-xs">
+                  Fase activa: {activeStageObj.label}
+                </span>
+                <span className="text-[10px] font-semibold text-[#8C5E28] bg-[#FAF3E0] px-2 py-0.5 rounded border border-[#E8DAC7]">
+                  {activeStageObj.statusBadge}
+                </span>
+              </div>
+              <p className="text-[11px] text-[#5A3822] leading-relaxed">
+                {activeStageObj.description}
+              </p>
+            </div>
+
+            <div className="pt-2 border-t border-[#F0E4D4] flex items-center justify-between text-[10px] text-[#78543E]">
+              <span className="flex items-center gap-1 font-medium">
+                <Clock className="w-3.5 h-3.5 text-[#B8621B]" />
+                {activeStageObj.note}
+              </span>
+              <span className="italic text-[#9C785F]">
+                (Haz clic en cada fase para consultar el estado)
+              </span>
+            </div>
+          </div>
         </div>
 
         {/* Receipt Box */}

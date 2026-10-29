@@ -61,6 +61,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
       subtotal,
       shipping,
       total,
+      status: 'preparando',
       customer: {
         fullName: fullName.trim(),
         phone: phone.trim(),

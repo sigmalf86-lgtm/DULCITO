@@ -83,4 +83,5 @@ export interface PlacedOrder {
   shipping: number;
   total: number;
   customer: OrderCustomerInfo;
+  status?: 'preparando' | 'en_camino' | 'entregado';
 }
