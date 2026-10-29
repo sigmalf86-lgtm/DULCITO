@@ -1,0 +1,6 @@
+{
+  "name": "Dulcito - Ponche Crema & Dulces Tradicionales",
+  "description": "Tienda virtual artesanal de ponche crema tradicional, dulce de leche de olla y dulces criollos hechos con amor y sabor a hogar.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

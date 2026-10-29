@@ -1,0 +1,369 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-script: "Great Vibes", "Alex Brush", cursive, serif;
+  
+  /* Dorado (Gold) */
+  --color-brand-gold: #D4AF37;
+  --color-brand-gold-light: #F2DF99;
+  --color-brand-gold-dark: #A68019;
+  --color-brand-gold-accent: #E5C158;
+
+  /* Cobre (Copper) */
+  --color-brand-copper: #C86438;
+  --color-brand-copper-light: #E0855D;
+  --color-brand-copper-dark: #9E4420;
+
+  /* Terracotas */
+  --color-brand-terracotta: #B84A28;
+  --color-brand-terracotta-light: #D46947;
+  --color-brand-terracotta-dark: #883317;
+
+  /* Pasteles Cálidos */
+  --color-brand-pastel-cream: #FAF6F0;
+  --color-brand-pastel-peach: #FDF3EC;
+  --color-brand-pastel-vanilla: #FBF5EB;
+  --color-brand-pastel-terracotta: #F8EDE6;
+  --color-brand-pastel-gold: #FAF3E0;
+
+  /* Base Cocoa / Café */
+  --color-brand-cocoa: #361B10;
+  --color-brand-espresso: #241109;
+  --color-brand-warmbrown: #4F2817;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #1A0B05;
+  color: #2D160C;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, .font-display {
+  font-family: var(--font-serif);
+}
+
+/* Star Anise & Slow Rotating Keyframes */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-gentle {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 12s linear infinite;
+}
+
+.animate-spin-gentle {
+  animation: spin-gentle 18s linear infinite;
+}
+
+/* Subtle gold shimmer */
+@keyframes gold-shimmer {
+  0%, 100% {
+    filter: drop-shadow(0 0 2px rgba(212, 175, 55, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(229, 193, 88, 0.8));
+  }
+}
+
+.animate-gold-shimmer {
+  animation: gold-shimmer 3s ease-in-out infinite;
+}
+
+/* Custom warm scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F8EDE6;
+}
+::-webkit-scrollbar-thumb {
+  background: #D9A07E;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C86438;
+}
+
+/* Fluid Pouring Stream Keyframes */
+@keyframes liquid-stream-flow {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 0% 200%;
+  }
+}
+
+.animate-liquid-flow {
+  animation: liquid-stream-flow 0.8s linear infinite;
+}
+
+/* Creamy splash pulse */
+@keyframes cream-splash {
+  0%, 100% {
+    transform: scale(0.92) translateY(0);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.18) translateY(-2px);
+    opacity: 1;
+  }
+}
+
+.animate-cream-splash {
+  animation: cream-splash 0.45s ease-in-out infinite;
+}
+
+/* Holiday Bokeh Lights Twinkle */
+@keyframes holiday-twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 0.98;
+    transform: scale(1.25);
+  }
+}
+
+.animate-holiday-twinkle {
+  animation: holiday-twinkle 2.2s ease-in-out infinite;
+}
+
+/* Nutmeg flutter animation */
+@keyframes nutmeg-flutter {
+  0% {
+    transform: translateY(-8px) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(38px) scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+.animate-nutmeg-flutter {
+  animation: nutmeg-flutter 0.9s ease-out forwards;
+}
+
+/* Cinematic Video Camera Motion (Ken Burns effect) */
+@keyframes cinematic-drift {
+  0% {
+    transform: scale(1.0) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.045) translate(-1.2%, -0.8%);
+  }
+  100% {
+    transform: scale(1.025) translate(0.8%, -1.4%);
+  }
+}
+
+.animate-cinematic-drift {
+  animation: cinematic-drift 10s ease-in-out infinite alternate;
+}
+
+/* Bottle Pouring Live Motion */
+@keyframes bottle-pour-sway {
+  0% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+  25% {
+    transform: rotate(-1.5deg) translate(-2px, 3px);
+  }
+  50% {
+    transform: rotate(-0.5deg) translate(1px, -1px);
+  }
+  75% {
+    transform: rotate(-2deg) translate(-1px, 2px);
+  }
+  100% {
+    transform: rotate(0deg) translate(0, 0);
+  }
+}
+
+.animate-bottle-sway {
+  animation: bottle-pour-sway 3.2s ease-in-out infinite;
+}
+
+/* Continuous Fluid Viscous Waves */
+@keyframes fluid-viscosity {
+  0% {
+    stroke-dashoffset: 0;
+    transform: translateY(0);
+  }
+  100% {
+    stroke-dashoffset: -120;
+    transform: translateY(4px);
+  }
+}
+
+.animate-fluid-viscosity {
+  animation: fluid-viscosity 0.75s linear infinite;
+}
+
+/* Ice Bobbing Motion */
+@keyframes ice-bob-motion {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  35% {
+    transform: translateY(-3.5px) rotate(1.2deg);
+  }
+  70% {
+    transform: translateY(2px) rotate(-1deg);
+  }
+}
+
+.animate-ice-bob {
+  animation: ice-bob-motion 2.6s ease-in-out infinite;
+}
+
+/* Rising Chilled Vapor / Mist */
+@keyframes mist-rise-motion {
+  0% {
+    transform: translateY(12px) scale(0.8);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.35;
+  }
+  100% {
+    transform: translateY(-28px) scale(1.35);
+    opacity: 0;
+  }
+}
+
+.animate-mist-rise {
+  animation: mist-rise-motion 3.5s ease-out infinite;
+}
+
+/* Warm Hearth Firelight Glow Flickering */
+@keyframes firelight-flicker {
+  0%, 100% {
+    opacity: 0.45;
+    filter: brightness(1.0);
+  }
+  25% {
+    opacity: 0.75;
+    filter: brightness(1.15);
+  }
+  50% {
+    opacity: 0.55;
+    filter: brightness(1.05);
+  }
+  75% {
+    opacity: 0.85;
+    filter: brightness(1.2);
+  }
+}
+
+.animate-firelight-glow {
+  animation: firelight-flicker 2.8s ease-in-out infinite;
+}
+
+/* Star Anise Floating Garnish Motion */
+@keyframes star-anise-float {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  50% {
+    transform: rotate(18deg) translateY(-3px);
+  }
+}
+
+.animate-star-anise-float {
+  animation: star-anise-float 5s ease-in-out infinite;
+}
+
+/* Rising Meniscus Wave */
+@keyframes meniscus-wave {
+  0%, 100% {
+    transform: scaleY(1) translateY(0);
+  }
+  50% {
+    transform: scaleY(1.06) translateY(-2px);
+  }
+}
+
+.animate-meniscus-wave {
+  animation: meniscus-wave 1.4s ease-in-out infinite;
+}
+
+/* Pop-under message animation */
+@keyframes pop-under {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -4px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.animate-pop-under {
+  animation: pop-under 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Pop-above message animation (for messages positioned above elements) */
+@keyframes pop-above {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 4px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.animate-pop-above {
+  animation: pop-above 0.16s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Wreath message pop animation */
+@keyframes wreath-badge-in {
+  0% {
+    opacity: 0;
+    scale: 0.92;
+  }
+  100% {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+.animate-wreath-pop {
+  animation: wreath-badge-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+
+
+
+
