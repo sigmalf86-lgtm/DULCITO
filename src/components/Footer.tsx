@@ -1,15 +1,19 @@
-import React from 'react';
-import { Heart, MessageCircle, Clock, MapPin, ShieldCheck, Instagram } from 'lucide-react';
+import React, { useState } from 'react';
+import { Heart, MessageCircle, Clock, MapPin, ShieldCheck, Instagram, Smartphone, Download, Check, Share2, PlusSquare, X } from 'lucide-react';
 import { BrandLogo, MetallicRedHeart } from './BrandLogo';
 import { SpinningStarAnise } from './SpinningStarAnise';
 import { ChristmasWreathPin } from './ChristmasWreathPin';
 import { RedVelvetRibbonStrip } from './RedVelvetRibbonStrip';
+import { usePWAInstall } from '../hooks/usePWAInstall';
 
 interface FooterProps {
   onSelectCategory: (cat: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
+  const { isInstallable, isInstalled, isIOS, install } = usePWAInstall();
+  const [showIOSGuide, setShowIOSGuide] = useState(false);
+
   return (
     <footer className="w-full bg-[#180A04] text-[#FAF6F0] relative overflow-hidden">
       {/* 1. TOP RIBBON (Golden ribbon framed by embossed red velvet ribbons matching Navbar) */}
@@ -248,6 +252,27 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
                 <Instagram className="w-4 h-4 text-[#F43F5E]" />
                 <span>Instagram: @dulcito___</span>
               </a>
+
+              {(isInstallable || isIOS) && !isInstalled && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (isInstallable) install();
+                    else if (isIOS) setShowIOSGuide(true);
+                  }}
+                  className="inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-[#D4AF37] via-[#FFD700] to-[#D4AF37] border-2 border-[#FFF8D6] ring-1 ring-[#FFF3B3]/70 text-[#241007] rounded-xl text-xs font-black transition-all shadow-md hover:brightness-110 active:scale-95 cursor-pointer"
+                >
+                  <Smartphone className="w-4 h-4 text-[#241007]" />
+                  <span>{isIOS ? '📲 Instalar en iPhone' : '📲 Descargar App'}</span>
+                </button>
+              )}
+
+              {isInstalled && (
+                <div className="inline-flex items-center gap-1.5 px-3 py-2 bg-[#2E7D32]/20 border border-[#2E7D32] text-[#4ADE80] rounded-xl text-xs font-bold">
+                  <Check className="w-4 h-4 text-[#4ADE80]" />
+                  <span>App Instalada</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -265,6 +290,87 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
         </div>
       </div>
     </div>
-  </footer>
+      {/* iOS Safari Guide Modal */}
+      {showIOSGuide && (
+        <div
+          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4 text-[#3D2214]"
+          onClick={() => setShowIOSGuide(false)}
+        >
+          <div
+            className="bg-[#FAF5EC] rounded-2xl border-2 border-[#D4AF37] shadow-2xl max-w-sm w-full p-6 relative space-y-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              onClick={() => setShowIOSGuide(false)}
+              className="absolute top-3 right-3 p-1 text-[#8C6044] hover:text-[#3D2214] rounded-lg"
+              aria-label="Cerrar guía"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="text-center space-y-1">
+              <h3 className="font-serif font-black text-lg text-[#3D2214]">
+                Instalar DULCITO en tu iPhone
+              </h3>
+              <p className="text-xs text-[#78543E]">
+                Sigue estos 3 sencillos pasos desde Safari:
+              </p>
+            </div>
+
+            <div className="space-y-3 text-xs bg-[#FFFDF9] p-4 rounded-xl border border-[#E3D4C0]">
+              <div className="flex items-start gap-3">
+                <div className="w-6 h-6 rounded-full bg-[#B8621B] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                  1
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-bold text-[#3D2214]">
+                    Toca el botón Compartir
+                  </p>
+                  <p className="text-[#78543E] text-[11px] flex items-center gap-1">
+                    Es el icono <Share2 className="w-3.5 h-3.5 text-[#007AFF] inline" /> en la barra inferior de Safari.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 pt-2 border-t border-[#F0E4D4]">
+                <div className="w-6 h-6 rounded-full bg-[#B8621B] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                  2
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-bold text-[#3D2214]">
+                    Selecciona "Agregar al inicio"
+                  </p>
+                  <p className="text-[#78543E] text-[11px] flex items-center gap-1">
+                    Desliza hacia abajo y toca <PlusSquare className="w-3.5 h-3.5 text-[#3D2214] inline" /> <strong>"Agregar a pantalla de inicio"</strong>.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3 pt-2 border-t border-[#F0E4D4]">
+                <div className="w-6 h-6 rounded-full bg-[#2E7D32] text-white flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                  <Check className="w-3.5 h-3.5 stroke-[3]" />
+                </div>
+                <div className="space-y-0.5">
+                  <p className="font-bold text-[#3D2214]">
+                    Toca "Agregar" arriba a la derecha
+                  </p>
+                  <p className="text-[#78543E] text-[11px]">
+                    ¡Listo! El icono de DULCITO aparecerá en tu pantalla principal como una app nativa.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setShowIOSGuide(false)}
+              className="w-full py-2.5 bg-[#3D2214] hover:bg-[#26150C] text-white text-xs font-bold rounded-xl transition-colors text-center"
+            >
+              Entendido
+            </button>
+          </div>
+        </div>
+      )}
+    </footer>
   );
 };

@@ -14,6 +14,7 @@ import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { Footer } from './components/Footer';
 import { SpinningStarAnise } from './components/SpinningStarAnise';
 import { SeasonalOrnaments, SeasonalSectionDivider } from './components/SeasonalOrnaments';
+import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { SeasonId } from './types/seasons';
 
 const CART_STORAGE_KEY = 'dulcito_cart_v1';
@@ -439,6 +440,9 @@ export default function App() {
           onClose={() => setPlacedOrder(null)}
         />
       )}
+
+      {/* Floating In-App PWA Install Banner */}
+      <PWAInstallBanner />
     </div>
   );
 }
