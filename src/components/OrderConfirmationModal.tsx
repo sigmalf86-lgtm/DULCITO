@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { PlacedOrder } from '../types';
 import { NewAppBadgeLogo } from './BrandLogo';
+import { FireworksCelebration } from './FireworksCelebration';
 
 export type OrderTrackingStage = 'preparando' | 'en_camino' | 'entregado';
 
@@ -31,6 +32,8 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
   const [copied, setCopied] = useState(false);
   const [copiedBank, setCopiedBank] = useState<string | null>(null);
   const [trackingStage, setTrackingStage] = useState<OrderTrackingStage>(order?.status || 'preparando');
+  const [fireworksKey, setFireworksKey] = useState<number>(1);
+  const [showFireworks, setShowFireworks] = useState<boolean>(true);
 
   if (!order) return null;
 
@@ -132,7 +135,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     if (earnedBottles > 0) {
       msg += `\n🍾 *Obsequio Dulcito por Volumen:* ${earnedBottles}x Botella${earnedBottles > 1 ? 's' : ''} de Ponche Crema Tradicional *GRATIS* (Incluida${earnedBottles > 1 ? 's' : ''} para entrega)`;
     }
-    msg += `\n*Envío:* ${order.shipping === 0 ? 'Gratis' : '$' + order.shipping.toFixed(2)}`;
+    msg += `\n*Envío:* Gratis (El empaque acolchado para envíos grandes corre por cuenta del vendedor)`;
     msg += `\n*TOTAL:* $${order.total.toFixed(2)}\n\n`;
     msg += `⚠️ *AVISO MUY IMPORTANTE:*\n`;
     msg += `📸 *Favor enviar comprobantes de pago y el motivo de ese pago por vía WhatsApp para ser procesados.*\n\n`;
@@ -156,6 +159,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     plainText += `Teléfono: ${order.customer.phone}\n`;
     plainText += `Total: $${order.total.toFixed(2)}\n`;
     plainText += `Dirección: ${order.customer.address}, ${order.customer.city}\n`;
+    plainText += `Envío: Gratis (Empaque acolchado para envíos grandes por cuenta del vendedor)\n`;
     plainText += `Estado: ${activeStageObj.label} (${activeStageObj.statusBadge})\n`;
     if (order.customer.paymentMethod === 'pago_movil') {
       plainText += `Pago Móvil:\n• Mercantil: 0105 / 04248830997 / 17320644\n• BNC: 0191 / 04145089082 / 17320644\n`;
@@ -177,29 +181,48 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
-      <div
-        className="relative bg-[#FAF5EC] rounded-2xl border border-[#E3D4C0] shadow-2xl max-w-lg w-full overflow-hidden text-[#3D2214] p-6 sm:p-8"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Top Icon Badge with New Logo */}
-        <div className="flex flex-col items-center text-center mb-6">
-          <div className="relative mb-3">
-            <NewAppBadgeLogo size={68} className="drop-shadow-lg" />
-            <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#2E7D32] border-2 border-white flex items-center justify-center text-white shadow-sm">
-              <Check className="w-3.5 h-3.5" />
+    <>
+      {/* 3 Full-screen Fireworks Explosions with additive glow and sound */}
+      <FireworksCelebration isActive={showFireworks} triggerKey={fireworksKey} />
+
+      <div className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
+        <div
+          className="relative bg-[#FAF5EC] rounded-2xl border border-[#E3D4C0] shadow-2xl max-w-lg w-full overflow-hidden text-[#3D2214] p-6 sm:p-8"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Top Icon Badge with New Logo */}
+          <div className="flex flex-col items-center text-center mb-6">
+            <div className="relative mb-3">
+              <NewAppBadgeLogo size={68} className="drop-shadow-lg" />
+              <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#2E7D32] border-2 border-white flex items-center justify-center text-white shadow-sm">
+                <Check className="w-3.5 h-3.5" />
+              </div>
+            </div>
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#B84A28]">
+              ¡Pedido Registrado con Éxito!
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#3D2214] mt-1">
+              Gracias por elegir DULCITO
+            </h2>
+            <p className="text-xs text-[#78543E] mt-1 max-w-xs leading-relaxed">
+              Hemos reservado tus productos artesanales. Estamos listos para preparar tu paquete con su lazo de mecatillo.
+            </p>
+
+            {/* Replay Fireworks Trigger */}
+            <div className="mt-3 flex items-center justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowFireworks(true);
+                  setFireworksKey((prev) => prev + 1);
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-gradient-to-r from-[#D4AF37]/25 via-[#FAF3E0] to-[#D4AF37]/25 border border-[#D4AF37] text-[#8C5E28] hover:text-[#3D2214] hover:bg-[#FAF0DC] hover:shadow-xs transition-all active:scale-95 cursor-pointer"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#B8621B] animate-spin" style={{ animationDuration: '4s' }} />
+                <span>🎆 Celebrar con Fuegos Artificiales</span>
+              </button>
             </div>
           </div>
-          <span className="text-[11px] font-bold uppercase tracking-wider text-[#B84A28]">
-            ¡Pedido Registrado con Éxito!
-          </span>
-          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-[#3D2214] mt-1">
-            Gracias por elegir DULCITO
-          </h2>
-          <p className="text-xs text-[#78543E] mt-1 max-w-xs leading-relaxed">
-            Hemos reservado tus productos artesanales. Estamos listos para preparar tu paquete con su lazo de mecatillo.
-          </p>
-        </div>
 
         {/* Visual Order Tracking Section */}
         <div className="mb-6 p-4 sm:p-5 bg-gradient-to-b from-[#FFFDF9] via-[#FAF6F0] to-[#F5ECE1] rounded-2xl border-2 border-[#D4AF37]/50 shadow-sm text-xs">
@@ -399,6 +422,16 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
             </div>
           )}
 
+          <div className="pt-2 border-t border-[#DECDB8] flex items-center justify-between text-xs text-[#5A3822]">
+            <div className="flex flex-col">
+              <span className="font-semibold text-[#3D2214]">Envío y Despacho:</span>
+              <span className="text-[10px] text-[#2E7D32]">
+                Empaque acolchado para envíos grandes corre por cuenta del vendedor
+              </span>
+            </div>
+            <span className="font-black text-[#2E7D32]">¡Gratis!</span>
+          </div>
+
           <div className="pt-2 border-t border-[#DECDB8] flex items-center justify-between font-serif font-bold text-base text-[#3D2214]">
             <span>Total:</span>
             <span className="text-lg text-[#B8621B] tabular-nums">${order.total.toFixed(2)}</span>
@@ -556,5 +589,6 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
         </div>
       </div>
     </div>
-  );
+  </>
+);
 };

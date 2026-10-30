@@ -221,6 +221,85 @@ class SoundEffects {
       osc.stop(startTime + 0.11);
     }
   }
+
+  /* Firework Rocket Launch (rising whoosh) */
+  public playFireworkLaunch() {
+    try {
+      this.init();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.exponentialRampToValueAtTime(880, now + 0.55);
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.05, now + 0.2);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.62);
+    } catch {
+      // Audio playback fails gracefully if context blocked
+    }
+  }
+
+  /* Firework Boom & Crackle Burst */
+  public playFireworkBurst() {
+    try {
+      this.init();
+      if (!this.ctx) return;
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+
+      const now = this.ctx.currentTime;
+
+      // 1. Low Thud / Boom
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(140, now);
+      osc.frequency.exponentialRampToValueAtTime(35, now + 0.45);
+
+      gain.gain.setValueAtTime(0.12, now);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.52);
+
+      // 2. High Sparkle Crackles
+      for (let i = 0; i < 5; i++) {
+        const crackleDelay = 0.08 + Math.random() * 0.35;
+        const crackleOsc = this.ctx.createOscillator();
+        const crackleGain = this.ctx.createGain();
+
+        crackleOsc.type = 'square';
+        crackleOsc.frequency.setValueAtTime(1200 + Math.random() * 1800, now + crackleDelay);
+
+        crackleGain.gain.setValueAtTime(0.025, now + crackleDelay);
+        crackleGain.gain.exponentialRampToValueAtTime(0.0001, now + crackleDelay + 0.06);
+
+        crackleOsc.connect(crackleGain);
+        crackleGain.connect(this.ctx.destination);
+
+        crackleOsc.start(now + crackleDelay);
+        crackleOsc.stop(now + crackleDelay + 0.07);
+      }
+    } catch {
+      // Audio playback fails gracefully
+    }
+  }
 }
 
 export const soundEffects = new SoundEffects();
@@ -228,3 +307,4 @@ export const hearthSound = {
   toggle: () => soundEffects.toggleHearth(),
   active: () => soundEffects.isHearthActive(),
 };
+

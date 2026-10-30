@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, ShoppingBag, Plus, Minus, Trash2, ArrowRight, Gift } from 'lucide-react';
 import { CartItem } from '../types';
+import { PRODUCTS } from '../data/products';
 import { SpinningStarAnise } from './SpinningStarAnise';
 
 interface CartDrawerProps {
@@ -134,20 +135,24 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
               </button>
             </div>
           ) : (
-            items.map((item, index) => (
-              <div
-                key={`${item.product.id}-${item.variant.id}-${index}`}
-                className="flex gap-3.5 p-3.5 bg-[#FAF7F2] rounded-2xl border border-[#E8DAC7] shadow-xs relative group"
-              >
-                {/* Thumb */}
-                <div className="w-16 h-16 rounded-xl bg-[#FBF5EB] overflow-hidden shrink-0 border border-[#E5CEBA]">
-                  <img
-                    src={item.product.image}
-                    alt={item.product.name}
-                    className="w-full h-full object-cover"
-                    referrerPolicy="no-referrer"
-                  />
-                </div>
+            items.map((item, index) => {
+              const currentProduct = PRODUCTS.find((p) => p.id === item.product.id) || item.product;
+              const itemImg = currentProduct.image || item.product.image;
+
+              return (
+                <div
+                  key={`${item.product.id}-${item.variant.id}-${index}`}
+                  className="flex gap-3.5 p-3.5 bg-[#FAF7F2] rounded-2xl border border-[#E8DAC7] shadow-xs relative group"
+                >
+                  {/* Thumb */}
+                  <div className="w-16 h-16 rounded-xl bg-[#FBF5EB] overflow-hidden shrink-0 border border-[#E5CEBA] shadow-2xs group-hover:border-[#D4AF37] transition-colors">
+                    <img
+                      src={itemImg}
+                      alt={item.product.name}
+                      className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
 
                 {/* Info */}
                 <div className="flex-1 min-w-0">
@@ -198,8 +203,9 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
               </div>
-            ))
-          )}
+            );
+          })
+        )}
         </div>
 
         {/* Footer with Subtotal & Checkout */}
@@ -225,14 +231,13 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
             )}
 
             <div className="flex items-center justify-between mb-4 text-xs text-[#7A4022]">
-              <span>Envío</span>
-              <span className="font-bold text-[#361B10]">
-                {subtotal >= 50 ? (
-                  <span className="text-[#2E7D32]">¡Gratis!</span>
-                ) : (
-                  'Calculado al finalizar'
-                )}
-              </span>
+              <div className="flex flex-col">
+                <span className="font-semibold text-[#361B10]">Envío</span>
+                <span className="text-[10px] text-[#2E7D32]">
+                  Empaque acolchado para envíos grandes por cuenta del vendedor
+                </span>
+              </div>
+              <span className="font-black text-[#2E7D32]">¡Gratis!</span>
             </div>
 
             <button

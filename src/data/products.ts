@@ -26,6 +26,15 @@ export const LOGOS = {
   panJamon: '/assets/aistudio/PAN_DE_JAMON_LOGO_f66ef27c.jpg',
 };
 
+export const PRODUCT_PHOTOS = {
+  ponche: '/assets/aistudio/Gemini_Generated_Image_yvqufzyvqufzyvqu_327b65ee.jpg',
+  dulceLeche: '/assets/aistudio/04_dulce_de_leche_limpio_ab931cfb.png',
+  chocolates: '/assets/aistudio/06_chocolates_arabes_limpio_37419348.png',
+  quesillo: '/assets/aistudio/01_quesillo_tradicional_limpio_38cd1897.png',
+  tequenos: '/assets/aistudio/03_tequenos_de_queso_limpio_b17a7e0e.png',
+  panJamon: '/assets/aistudio/05_pan_de_jamon_limpio_9d9d60c5.png',
+};
+
 /**
  * Flagship Curated Artisanal Products for DULCITO
  * Complete product catalog with dedicated video presentations and artisanal watermark logos
@@ -39,7 +48,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Ponche Crema',
     description: 'Ponche tradicional a base de leche, especias y ron ámbar.',
     story: 'La abuela Carmen encendía el fogón a primera hora de la mañana. En la paila de cobre, la leche y las especias perfumaban toda la casa antes de que nadie despertara. Ese mismo aroma nostálgico es el que sellamos a mano en cada botella con tapón basculante swing-top, lazo de mecatillo rústico, anís estrellado y canela en rama, tal como se aprecia en nuestro spot publicitario oficial.',
-    image: LOGOS.ponche,
+    image: PRODUCT_PHOTOS.ponche,
     badge: 'Spot Oficial en Video',
     rating: 5.0,
     reviewsCount: 142,
@@ -84,7 +93,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Dulce de Leche',
     description: 'Dulce de leche con base infusionada de especias, cocido a fuego lento en paila de cobre y paleta de madera, sabor a tradición.',
     story: 'El secreto está en el fuego paciente y en la paila de cobre: cada frasco celebra la tradición auténtica del dulce de leche criollo, preparado a diario con amor de hogar.',
-    image: LOGOS.dulceLeche,
+    image: PRODUCT_PHOTOS.dulceLeche,
     badge: 'Video & Hecho al Día',
     rating: 5.0,
     reviewsCount: 167,
@@ -127,7 +136,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Chocolates con Cacao Criollo',
     description: 'Cacao de fino aroma, pistachos, maní, coco, cardamomo y azahar en bombones y lingotes tradicionales árabes.',
     story: 'Una fusión celestial entre el mejor cacao de nuestra tierra y la repostería perfumada del Medio Oriente. Cada pieza es moldeada a mano, bañada en chocolate brillante y coronada con tropezones de pistachos tostados al sol.',
-    image: LOGOS.chocolates,
+    image: PRODUCT_PHOTOS.chocolates,
     badge: 'Video & Receta Árabe',
     rating: 5.0,
     reviewsCount: 128,
@@ -171,7 +180,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Quesillo Tradicional',
     description: 'Tradición nacional, huevos, leche, azúcar, ron y ¡corazón!',
     story: 'No hay fiesta sin quesillo en la mesa. La abuela nos enseñó el punto exacto del caramelo para que conserve ese amargor sutil que contrasta con la dulzura aterciopelada de la crema horneada. Cada rebanada es un pasaporte a los domingos de infancia.',
-    image: LOGOS.quesillo,
+    image: PRODUCT_PHOTOS.quesillo,
     badge: 'Video & Caramelo Vivo',
     rating: 5.0,
     reviewsCount: 184,
@@ -215,7 +224,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Pasapalos y Tradición',
     description: 'Masa peculiar, queso llanero, freír y ¡a disfrutar!',
     story: 'No existe fiesta, domingo familiar o tertulia navideña sin una bandeja de tequeños de queso humeantes. En Dulcito preparamos la masa con reposo paciente y queso de corral seleccionado para que al freír o llevar al Air Fryer queden dorados por fuera y con el corazón de queso derretido más elástico y sabroso.',
-    image: LOGOS.tequenos,
+    image: PRODUCT_PHOTOS.tequenos,
     badge: 'Spot Oficial en Video',
     rating: 5.0,
     reviewsCount: 189,
@@ -258,7 +267,7 @@ export const PRODUCTS: Product[] = [
     categoryLabel: 'Panadería Navideña Dulcito',
     description: 'Ese toque navideño que no puede faltar en tu mesa. Sabor a tradición, ¡hecho con amor!',
     story: 'El olor a pan de jamón saliendo del horno marca el inicio oficial de la Navidad en cada hogar. Relleno sin mezquindades de punta a punta, con la trenza tradicional y el crujido suave de la corteza dorada.',
-    image: LOGOS.panJamon,
+    image: PRODUCT_PHOTOS.panJamon,
     badge: 'Spot Oficial en Video',
     rating: 5.0,
     reviewsCount: 156,

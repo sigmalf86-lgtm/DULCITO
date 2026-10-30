@@ -34,8 +34,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   if (!isOpen) return null;
 
   const subtotal = items.reduce((sum, item) => sum + item.variant.price * item.quantity, 0);
-  const shipping = subtotal >= 50 ? 0 : 3.50;
-  const total = subtotal + shipping;
+  // El empaque acolchado para envíos grandes corre por cuenta del vendedor (sin recargo al cliente)
+  const shipping = 0;
+  const total = subtotal;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -424,10 +425,13 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
               </div>
             )}
             <div className="flex items-center justify-between text-[#5A3822]">
-              <span>Envío Seguro en Empaque Acolchado</span>
-              <span className="font-semibold tabular-nums text-[#3D2214]">
-                {shipping === 0 ? <span className="text-[#2E7D32]">¡Gratis!</span> : `$${shipping.toFixed(2)}`}
-              </span>
+              <div className="flex flex-col">
+                <span className="font-semibold text-[#3D2214]">Envío y Despacho</span>
+                <span className="text-[10px] text-[#2E7D32]">
+                  Empaque acolchado para envíos grandes corre por cuenta del vendedor
+                </span>
+              </div>
+              <span className="font-black text-[#2E7D32]">¡Gratis!</span>
             </div>
             <div className="pt-2 border-t border-[#DFCDBC] flex items-center justify-between font-serif font-bold text-base text-[#3D2214]">
               <span>Total a Pagar</span>
