@@ -140,13 +140,13 @@ export const CustomBoxBuilder: React.FC<CustomBoxBuilderProps> = () => {
 
               {/* Action WhatsApp Contact */}
               <a
-                href="https://wa.me/584248830997?text=Hola%20Dulcito,%20quisiera%20consultar%20sobre%20el%20Obsequio%20Familiar%20Navide%C3%B1o%20con%20todos%20los%20productos."
+                href="https://wa.me/584248830997?text=Hola%20DULCITO%20%F0%9F%A4%8E%2C%20quisiera%20consultar%20por%20el%20Obsequio%20familia%20Navide%C3%B1o%20y%20sus%20productos%3F"
                 target="_blank"
                 rel="noreferrer"
                 className="w-full py-3.5 px-5 rounded-xl font-bold text-xs sm:text-sm bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/80 text-white hover:border-[#FFF8D6] hover:shadow-[0_6px_25px_rgba(212,175,55,0.45)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2.5 shadow-md"
               >
                 <MessageCircle className="w-4 h-4 text-[#25D366]" />
-                <span>Consultar Obsequio por WhatsApp</span>
+                <span>Consulta tu obsequio por WhatsApp</span>
                 <SpinningStarAnise size={18} speed="slow" glow={false} />
               </a>
             </div>

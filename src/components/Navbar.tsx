@@ -93,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2 lg:gap-2.5">
               {/* WhatsApp App Logo Button */}
               <a
-                href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%2C%20%C2%BFen%20qu%C3%A9%20puedo%20ayudarte%3F"
+                href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%0A%C2%BFEn%20qu%C3%A9%20puedo%20ayudarte%3F"
                 target="_blank"
                 rel="noreferrer"
                 title="WhatsApp: Escríbenos directamente"
@@ -163,7 +163,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#8F6516]/40">
             {/* WhatsApp App Button */}
             <a
-              href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%2C%20%C2%BFen%20qu%C3%A9%20puedo%20ayudarte%3F"
+              href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%0A%C2%BFEn%20qu%C3%A9%20puedo%20ayudarte%3F"
               target="_blank"
               rel="noreferrer"
               title="WhatsApp: Escríbenos"

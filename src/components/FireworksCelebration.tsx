@@ -54,7 +54,7 @@ interface Flash {
   radius: number;
   maxRadius: number;
   alpha: number;
-  color: string;
+  rgbColor: string; // e.g. '255, 170, 0'
 }
 
 export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
@@ -77,7 +77,7 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
     let isRunning = true;
     let tick = 0;
 
-    // Handle high DPI
+    // Handle high DPI for ultra-sharp crisp sparks
     const resizeCanvas = () => {
       const dpr = Math.min(window.devicePixelRatio || 1, 2);
       const width = window.innerWidth;
@@ -98,13 +98,63 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
     const particles: Particle[] = [];
     const flashes: Flash[] = [];
 
-    // Distinct Palettes matching the user's reference image:
-    // 1. Golden Amber Chrysanthemum (Rich gold, topaz, warm sparks)
-    const goldPalette = ['#FFFFFF', '#FFF7D6', '#FFE27A', '#FFB800', '#F59E0B', '#D97706', '#E65100'];
-    // 2. Electric Cyan / Turquoise Starburst (Bright cyan, sky blue, neon turquoise, white core)
-    const cyanPalette = ['#FFFFFF', '#D1FAE5', '#67E8F9', '#00E5FF', '#38BDF8', '#0284C7', '#0369A1'];
-    // 3. Ruby Rose / Magenta & Sunset Starburst (Vibrant ruby, magenta, coral, golden stardust)
-    const rubyPalette = ['#FFFFFF', '#FFE4E6', '#F43F5E', '#FB7185', '#E11D48', '#C026D3', '#FBBF24'];
+    // ULTRA-VIVID, HIGH-SATURATION FESTIVE PALETTES (Electric, punchy, neon-grade pigments)
+    // 1. Molten Gold & Solar Amber Chrysanthemum (Deep solar gold, electric lemon, warm amber flame)
+    const goldPalette = [
+      '#FFFFFF',
+      '#FFE600', // Intense Electric Lemon
+      '#FFD700', // Pure Sun Gold
+      '#FFB700', // Rich Amber
+      '#FF8C00', // Deep Tangerine
+      '#FF4500', // Solar Orange-Red
+      '#FF2200', // Fiery Flame Red
+      '#FFA500', // Vibrant Gold-Orange
+    ];
+
+    // 2. Electric Cyan & Laser Turquoise Crown (Pure laser cyan, electric sky, vivid cobalt, white star)
+    const cyanPalette = [
+      '#FFFFFF',
+      '#00FFFF', // Pure Laser Cyan
+      '#00F0FF', // Neon Electric Turquoise
+      '#00D4FF', // Intense Sky Blue
+      '#0099FF', // Electric Azure
+      '#0055FF', // Deep Cobalt
+      '#38BDF8', // Luminous Topaz
+      '#7DD3FC', // Bright Ice Cyan
+    ];
+
+    // 3. Ruby Rose, Laser Magenta & Sunset Starburst (Laser crimson, hot magenta, electric purple, gold stardust)
+    const rubyPalette = [
+      '#FFFFFF',
+      '#FF0055', // Pure Laser Ruby
+      '#FF007F', // Vivid Hot Pink
+      '#FF1493', // Deep Neon Magenta
+      '#E11D48', // Intense Crimson
+      '#D900FF', // Electric Violet
+      '#FF3366', // Coral Fire
+      '#FFD700', // Brilliant Gold Star
+    ];
+
+    // 4. Laser Emerald & Neon Lime Companion (Ultra-punchy green)
+    const emeraldPalette = [
+      '#FFFFFF',
+      '#00FF66', // Neon Spring Green
+      '#00FF99', // Electric Mint
+      '#00E676', // Vivid Emerald
+      '#76FF03', // Laser Lime
+      '#10B981', // Deep Emerald
+      '#FFE600', // Gold Sparkle
+    ];
+
+    // 5. Royal Ultraviolet & Electric Violet Companion
+    const violetPalette = [
+      '#FFFFFF',
+      '#B026FF', // Neon Purple
+      '#9900FF', // Electric Violet
+      '#D500F9', // Vivid Magenta-Purple
+      '#7C4DFF', // Deep Royal Violet
+      '#00E5FF', // Cyan Spark
+    ];
 
     const spawnExplosion = (
       x: number,
@@ -115,48 +165,55 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
       // Sound effect
       soundEffects.playFireworkBurst();
 
-      // Center Flash (illuminating epicenter)
+      // Determine intense colored ambient flash for this burst
+      let rgbFlash = '255, 200, 50';
+      if (style === 'electric_cyan') {
+        rgbFlash = '0, 240, 255';
+      } else if (style === 'ruby_magenta') {
+        rgbFlash = '255, 0, 110';
+      }
+
+      // Center Flash (high-intensity illuminating epicenter)
       flashes.push({
         x,
         y,
-        radius: 8,
-        maxRadius: style === 'electric_cyan' ? 95 : 80,
-        alpha: 0.9,
-        color: palette[0] || '#FFFFFF',
+        radius: 12,
+        maxRadius: style === 'electric_cyan' ? 120 : 105,
+        alpha: 1.0,
+        rgbColor: rgbFlash,
       });
 
-      // Layered radial particles
-      const particleCount = style === 'golden_chrysanthemum' ? 140 : style === 'electric_cyan' ? 150 : 135;
+      // Layered radial particles with high density
+      const particleCount = style === 'golden_chrysanthemum' ? 165 : style === 'electric_cyan' ? 175 : 160;
 
       for (let i = 0; i < particleCount; i++) {
-        // Multi-ring distribution for realistic peony / chrysanthemum
+        // Multi-ring spherical distribution
         const angle = (Math.PI * 2 * i) / particleCount + (Math.random() - 0.5) * 0.12;
-        
-        // Tiered speed: outer long tentacles, dense middle, and inner glittering core
+
         const tier = Math.random();
         let speed: number;
         let maxTrail: number;
         let decay: number;
         let size: number;
 
-        if (tier > 0.8) {
-          // Fast outer streamers
-          speed = 4.2 + Math.random() * 3.6;
-          maxTrail = 6;
-          decay = 0.009 + Math.random() * 0.005;
-          size = 2.4;
-        } else if (tier > 0.3) {
-          // Dense middle ring
-          speed = 2.6 + Math.random() * 2.2;
-          maxTrail = 4;
-          decay = 0.012 + Math.random() * 0.006;
-          size = 2.0;
+        if (tier > 0.78) {
+          // Fast outer long streamers (strong high-velocity arms)
+          speed = 4.8 + Math.random() * 4.2;
+          maxTrail = 9;
+          decay = 0.0075 + Math.random() * 0.0045;
+          size = 3.2;
+        } else if (tier > 0.28) {
+          // Dense, rich middle ring
+          speed = 3.0 + Math.random() * 2.6;
+          maxTrail = 7;
+          decay = 0.0095 + Math.random() * 0.0055;
+          size = 2.8;
         } else {
-          // Inner sparkling core / stardust
-          speed = 0.8 + Math.random() * 1.8;
-          maxTrail = 3;
-          decay = 0.015 + Math.random() * 0.01;
-          size = 2.6;
+          // Intense glittering epicenter / stardust
+          speed = 1.0 + Math.random() * 2.2;
+          maxTrail = 5;
+          decay = 0.012 + Math.random() * 0.008;
+          size = 3.4;
         }
 
         const colorIndex = Math.floor(Math.random() * palette.length);
@@ -175,32 +232,32 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
           size,
           trail: [],
           maxTrailLength: maxTrail,
-          gravity: 0.052,
-          drag: 0.976,
-          twinkleSpeed: 0.18 + Math.random() * 0.22,
+          gravity: 0.048,
+          drag: 0.980,
+          twinkleSpeed: 0.16 + Math.random() * 0.24,
           twinkleSeed: Math.random() * 100,
         });
       }
 
-      // Add a cluster of falling golden/diamond glitter sparkles
-      for (let j = 0; j < 25; j++) {
+      // Add a cluster of falling intense golden/diamond glitter sparkles
+      for (let j = 0; j < 35; j++) {
         const angle = Math.random() * Math.PI * 2;
-        const speed = 0.5 + Math.random() * 2.2;
+        const speed = 0.6 + Math.random() * 2.6;
         particles.push({
-          x: x + (Math.random() - 0.5) * 15,
-          y: y + (Math.random() - 0.5) * 15,
+          x: x + (Math.random() - 0.5) * 18,
+          y: y + (Math.random() - 0.5) * 18,
           vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed - 0.5,
+          vy: Math.sin(angle) * speed - 0.6,
           alpha: 1,
-          decay: 0.011 + Math.random() * 0.008,
-          color: '#FFFBEB',
-          twinkleColor: '#FDE047',
-          size: 1.8,
+          decay: 0.009 + Math.random() * 0.007,
+          color: '#FFE600',
+          twinkleColor: '#FFFFFF',
+          size: 2.2,
           trail: [],
-          maxTrailLength: 3,
-          gravity: 0.065,
-          drag: 0.965,
-          twinkleSpeed: 0.3,
+          maxTrailLength: 4,
+          gravity: 0.060,
+          drag: 0.970,
+          twinkleSpeed: 0.35,
           twinkleSeed: Math.random() * 50,
         });
       }
@@ -221,8 +278,7 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
       const targetX = width * targetXRatio;
       const targetY = height * targetYRatio;
 
-      // Calculate initial velocity to reach target in ~40-48 frames
-      const frames = 44;
+      const frames = 42;
       const vx = (targetX - startX) / frames;
       const vy = (targetY - startY) / frames;
 
@@ -246,40 +302,36 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
       });
     };
 
-    // 4. Emerald & Violet companion palettes for depth (as shown in reference image)
-    const emeraldPalette = ['#FFFFFF', '#A7F3D0', '#34D399', '#10B981', '#059669', '#FDE047'];
-    const violetPalette = ['#FFFFFF', '#E9D5FF', '#C084FC', '#A855F7', '#7E22CE', '#38BDF8'];
-
-    // Schedule the 3 Main Explosions requested, plus 2 companion ambient bursts:
-    // Explosion 1: Left quadrant (Golden Chrysanthemum)
+    // Schedule 3 Main Powerful Explosions + 2 Ambient Saturated Companions:
+    // Explosion 1: Left quadrant (Molten Gold Chrysanthemum)
     const timer1 = window.setTimeout(() => {
       if (!isRunning) return;
-      launchRocket(0.26, 0.28, 0.30, goldPalette, 'golden_chrysanthemum');
-    }, 120);
+      launchRocket(0.26, 0.28, 0.28, goldPalette, 'golden_chrysanthemum');
+    }, 100);
 
-    // Companion mini-burst: Lower-left Violet (from reference image)
+    // Companion mini-burst: Lower-left Electric Violet
     const timerSub1 = window.setTimeout(() => {
       if (!isRunning) return;
-      launchRocket(0.18, 0.16, 0.52, violetPalette, 'ruby_magenta');
-    }, 450);
+      launchRocket(0.16, 0.15, 0.50, violetPalette, 'ruby_magenta');
+    }, 420);
 
-    // Explosion 2: Center (High Electric Cyan / Turquoise Crown)
+    // Explosion 2: Center (High Electric Cyan & Laser Turquoise Crown)
     const timer2 = window.setTimeout(() => {
       if (!isRunning) return;
-      launchRocket(0.50, 0.50, 0.20, cyanPalette, 'electric_cyan');
-    }, 650);
+      launchRocket(0.50, 0.50, 0.18, cyanPalette, 'electric_cyan');
+    }, 620);
 
-    // Companion mini-burst: Lower-right Emerald / Lime (from reference image)
+    // Companion mini-burst: Lower-right Laser Emerald
     const timerSub2 = window.setTimeout(() => {
       if (!isRunning) return;
-      launchRocket(0.82, 0.84, 0.48, emeraldPalette, 'electric_cyan');
-    }, 950);
+      launchRocket(0.84, 0.85, 0.46, emeraldPalette, 'electric_cyan');
+    }, 920);
 
-    // Explosion 3: Right quadrant (Ruby Rose / Magenta Starburst)
+    // Explosion 3: Right quadrant (Vivid Ruby Rose & Hot Magenta Starburst)
     const timer3 = window.setTimeout(() => {
       if (!isRunning) return;
-      launchRocket(0.74, 0.72, 0.28, rubyPalette, 'ruby_magenta');
-    }, 1200);
+      launchRocket(0.74, 0.72, 0.26, rubyPalette, 'ruby_magenta');
+    }, 1150);
 
     // Render loop
     const render = () => {
@@ -289,17 +341,26 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
       const width = window.innerWidth;
       const height = window.innerHeight;
 
-      // Clear canvas with subtle trail fade for luminosity
+      // Clear canvas cleanly
       ctx.clearRect(0, 0, width, height);
 
-      // Use additive blending for realistic fireworks glow
+      // 1. Subtle Contrast Aura Vignette during activity to make neon colors pop dramatically
+      const activeBurstsCount = particles.length + flashes.length + rockets.length;
+      if (activeBurstsCount > 0) {
+        const auraAlpha = Math.min(0.28, (activeBurstsCount / 250) * 0.28);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = `rgba(15, 5, 2, ${auraAlpha})`;
+        ctx.fillRect(0, 0, width, height);
+      }
+
+      // Additive blending for realistic, hyper-intense luminous neon glow
       ctx.globalCompositeOperation = 'lighter';
 
-      // 1. Update and Render Flashes
+      // 2. Update and Render Flashes (Epicenter Glows with colored radial aura)
       for (let i = flashes.length - 1; i >= 0; i--) {
         const flash = flashes[i];
-        flash.radius += (flash.maxRadius - flash.radius) * 0.28;
-        flash.alpha -= 0.055;
+        flash.radius += (flash.maxRadius - flash.radius) * 0.25;
+        flash.alpha -= 0.045;
 
         if (flash.alpha <= 0) {
           flashes.splice(i, 1);
@@ -314,9 +375,10 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
           flash.y,
           flash.radius
         );
-        gradient.addColorStop(0, `rgba(255, 255, 255, ${flash.alpha * 0.9})`);
-        gradient.addColorStop(0.35, `rgba(255, 240, 200, ${flash.alpha * 0.5})`);
-        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${flash.alpha * 0.95})`);
+        gradient.addColorStop(0.3, `rgba(${flash.rgbColor}, ${flash.alpha * 0.75})`);
+        gradient.addColorStop(0.7, `rgba(${flash.rgbColor}, ${flash.alpha * 0.3})`);
+        gradient.addColorStop(1, `rgba(${flash.rgbColor}, 0)`);
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
@@ -324,76 +386,87 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
         ctx.fill();
       }
 
-      // 2. Update and Render Rockets
+      // 3. Update and Render Rockets (Thicker, vivid tracers rising with spark trails)
       for (let i = rockets.length - 1; i >= 0; i--) {
         const rocket = rockets[i];
 
         rocket.trail.push({ x: rocket.x, y: rocket.y });
-        if (rocket.trail.length > 7) {
+        if (rocket.trail.length > 8) {
           rocket.trail.shift();
         }
 
         rocket.x += rocket.vx;
         rocket.y += rocket.vy;
 
-        // Check if rocket reached apex / target altitude
+        // Check if rocket reached apex
         if (rocket.y <= rocket.targetY || rocket.vy >= 0) {
           spawnExplosion(rocket.x, rocket.y, rocket.palette, rocket.style);
           rockets.splice(i, 1);
           continue;
         }
 
-        // Draw ascending rocket tail with sparks
+        // Draw ascending rocket tracer with multi-pass neon beam
         if (rocket.trail.length > 1) {
+          // Wide outer colored aura
           ctx.beginPath();
           ctx.moveTo(rocket.trail[0].x, rocket.trail[0].y);
           for (let t = 1; t < rocket.trail.length; t++) {
             ctx.lineTo(rocket.trail[t].x, rocket.trail[t].y);
           }
           ctx.strokeStyle = rocket.color;
-          ctx.lineWidth = 3;
+          ctx.lineWidth = 8;
           ctx.lineCap = 'round';
           ctx.stroke();
 
-          // Outer luminous glow
+          // Saturated core beam
           ctx.beginPath();
           ctx.moveTo(rocket.trail[0].x, rocket.trail[0].y);
           for (let t = 1; t < rocket.trail.length; t++) {
             ctx.lineTo(rocket.trail[t].x, rocket.trail[t].y);
           }
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.45)';
-          ctx.lineWidth = 6;
+          ctx.strokeStyle = rocket.color;
+          ctx.lineWidth = 4;
+          ctx.stroke();
+
+          // White-hot center spine
+          ctx.beginPath();
+          ctx.moveTo(rocket.trail[0].x, rocket.trail[0].y);
+          for (let t = 1; t < rocket.trail.length; t++) {
+            ctx.lineTo(rocket.trail[t].x, rocket.trail[t].y);
+          }
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.lineWidth = 1.6;
           ctx.stroke();
         }
 
-        // Rocket head spark
+        // Rocket head spark (intense star)
         ctx.fillStyle = '#FFFFFF';
         ctx.beginPath();
-        ctx.arc(rocket.x, rocket.y, 3.2, 0, Math.PI * 2);
+        ctx.arc(rocket.x, rocket.y, 4.0, 0, Math.PI * 2);
         ctx.fill();
 
         // Emitter trail sparks falling off rocket
-        if (Math.random() < 0.65) {
+        if (Math.random() < 0.75) {
           particles.push({
-            x: rocket.x + (Math.random() - 0.5) * 4,
-            y: rocket.y + Math.random() * 6,
-            vx: (Math.random() - 0.5) * 1.2,
-            vy: 1.5 + Math.random() * 2.5,
-            alpha: 0.85,
-            decay: 0.05,
-            color: '#FFD700',
-            size: 1.5,
+            x: rocket.x + (Math.random() - 0.5) * 5,
+            y: rocket.y + Math.random() * 8,
+            vx: (Math.random() - 0.5) * 1.5,
+            vy: 1.8 + Math.random() * 3.0,
+            alpha: 0.95,
+            decay: 0.045,
+            color: rocket.color,
+            size: 2.0,
             trail: [],
-            maxTrailLength: 2,
+            maxTrailLength: 3,
             gravity: 0.08,
             drag: 0.94,
-            twinkleSpeed: 0.2,
+            twinkleSpeed: 0.25,
             twinkleSeed: Math.random() * 20,
           });
         }
       }
 
-      // 3. Update and Render Particles
+      // 4. Update and Render Particles (Multi-pass high-intensity glow)
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
 
@@ -415,42 +488,73 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
           continue;
         }
 
-        // Twinkle flicker calculation
+        // Twinkle factor
         const twinkleFactor =
-          0.6 + 0.4 * Math.sin(tick * p.twinkleSpeed + p.twinkleSeed);
+          0.65 + 0.35 * Math.sin(tick * p.twinkleSpeed + p.twinkleSeed);
         const currentAlpha = Math.max(0, p.alpha * twinkleFactor);
 
-        // Draw particle tail / streak
+        // MULTI-PASS NEON LASER TRAIL:
         if (p.trail.length > 1) {
+          // Pass 1: Wide Saturated Glow Aura
           ctx.beginPath();
           ctx.moveTo(p.trail[0].x, p.trail[0].y);
           for (let t = 1; t < p.trail.length; t++) {
             ctx.lineTo(p.trail[t].x, p.trail[t].y);
           }
           ctx.strokeStyle = p.color;
-          ctx.globalAlpha = currentAlpha * 0.85;
-          ctx.lineWidth = Math.max(0.8, p.size * (p.alpha > 0.5 ? 1 : p.alpha * 2));
+          ctx.globalAlpha = currentAlpha * 0.55;
+          ctx.lineWidth = Math.max(2.5, p.size * 2.2);
           ctx.lineCap = 'round';
+          ctx.stroke();
+
+          // Pass 2: Vivid Pure Body
+          ctx.beginPath();
+          ctx.moveTo(p.trail[0].x, p.trail[0].y);
+          for (let t = 1; t < p.trail.length; t++) {
+            ctx.lineTo(p.trail[t].x, p.trail[t].y);
+          }
+          ctx.strokeStyle = p.color;
+          ctx.globalAlpha = currentAlpha * 0.95;
+          ctx.lineWidth = Math.max(1.5, p.size * 1.15);
+          ctx.stroke();
+
+          // Pass 3: White-Hot Center Light
+          ctx.beginPath();
+          ctx.moveTo(p.trail[0].x, p.trail[0].y);
+          for (let t = 1; t < p.trail.length; t++) {
+            ctx.lineTo(p.trail[t].x, p.trail[t].y);
+          }
+          ctx.strokeStyle = '#FFFFFF';
+          ctx.globalAlpha = currentAlpha * 0.85;
+          ctx.lineWidth = Math.max(0.8, p.size * 0.45);
           ctx.stroke();
         }
 
-        // Draw particle glowing head
-        ctx.globalAlpha = currentAlpha;
-        ctx.fillStyle = p.twinkleColor && twinkleFactor > 0.85 ? '#FFFFFF' : p.color;
+        // SPARK HEAD (Vivid outer disc + brilliant white star core)
+        // Outer colored glow circle
+        ctx.globalAlpha = currentAlpha * 0.95;
+        ctx.fillStyle = p.color;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * (0.8 + 0.4 * twinkleFactor), 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, p.size * (1.1 + 0.4 * twinkleFactor), 0, Math.PI * 2);
         ctx.fill();
 
-        // Secondary crackle: occasionally spawn a tiny glitter drop
-        if (!p.hasCrackled && p.alpha < 0.45 && Math.random() < 0.04) {
+        // White-hot center star
+        ctx.globalAlpha = currentAlpha;
+        ctx.fillStyle = p.twinkleColor && twinkleFactor > 0.82 ? '#FFFFFF' : '#FFFBEB';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * (0.55 + 0.25 * twinkleFactor), 0, Math.PI * 2);
+        ctx.fill();
+
+        // Secondary crackle: occasionally spawn a tiny glitter burst
+        if (!p.hasCrackled && p.alpha < 0.48 && Math.random() < 0.045) {
           p.hasCrackled = true;
           flashes.push({
             x: p.x,
             y: p.y,
-            radius: 2,
-            maxRadius: 8,
-            alpha: 0.6,
-            color: '#FFFBEB',
+            radius: 3,
+            maxRadius: 10,
+            alpha: 0.75,
+            rgbColor: '255, 230, 100',
           });
         }
       }
@@ -458,11 +562,10 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
       ctx.globalAlpha = 1.0;
       ctx.globalCompositeOperation = 'source-over';
 
-      // Check if finished (all rockets and particles done after launch timers)
       const hasPendingActivity =
         rockets.length > 0 || particles.length > 0 || flashes.length > 0;
 
-      if (!hasPendingActivity && tick > 130) {
+      if (!hasPendingActivity && tick > 150) {
         if (onComplete) onComplete();
       }
 
