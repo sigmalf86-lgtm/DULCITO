@@ -1,24 +1,34 @@
 {
+  "id": "/",
+  "name": "Dulcito - Sabor a Tradición",
   "short_name": "Dulcito",
-  "name": "DULCITO - Ponche Crema & Dulces Tradicionales",
-  "description": "Ponche crema artesanal venezolano, dulce de leche criollo y bocados tradicionales.",
+  "description": "Tienda artesanal venezolana: ponche crema tradicional, dulce de leche, chocolates árabes, quesillo tradicional, tequeños de queso y pan de jamón navideño.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#1C0D06",
+  "background_color": "#1A0B05",
+  "lang": "es",
   "icons": [
     {
-      "src": "/assets/aistudio/sello_sticker_circular.png",
-      "type": "image/png",
+      "src": "/assets/aistudio/sello_circle_exact.png",
       "sizes": "192x192",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/assets/aistudio/sello_sticker_circular.png",
-      "type": "image/png",
+      "src": "/assets/aistudio/sello_circle_exact.png",
       "sizes": "512x512",
-      "purpose": "any maskable"
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/aistudio/sello_circle_exact.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
-  "start_url": "/",
-  "background_color": "#1A0B05",
-  "theme_color": "#1C0D06",
-  "display": "standalone",
-  "orientation": "portrait"
+  "categories": ["shopping", "food"]
 }
