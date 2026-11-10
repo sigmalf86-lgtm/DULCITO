@@ -238,21 +238,9 @@ export default function App() {
       />
 
       <main className="flex-1 relative z-10">
-        {/* Brand Commercial Spotlight Section (Official Video at the very beginning of the app) */}
+        {/* Centered Video Vitrina Oficial */}
         <CommercialSpotlight
-          onQuickView={(p, tab) => {
-            setSelectedProduct(p);
-            setModalInitialTab(tab || 'video');
-          }}
           onAddToCart={(p, v) => handleAddToCart(p, v)}
-          onExploreCatalog={() => {
-            const el = document.getElementById('catalogo');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
-          onOpenCustomBox={() => {
-            const el = document.getElementById('caja-regalo');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
         />
 
         {/* Seasonal Decorative Section Divider */}
