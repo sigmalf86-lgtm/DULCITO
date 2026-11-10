@@ -220,15 +220,15 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
         </div>
 
         {/* Video Vitrina Player & Showcase Panel */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10 items-center max-w-4xl mx-auto">
-          {/* Left: Fully Justified 9:16 Video Showcase */}
-          <div className="lg:col-span-6 flex flex-col items-center">
-            {/* The Cinema Bezel Container */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center max-w-4xl mx-auto">
+          {/* Left: Compact 9:16 Video Showcase (Approximately half size) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center">
+            {/* The Cinema Bezel Container - Scaled down to ~half size */}
             <div
               ref={containerRef}
-              className="group relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] rounded-[1.75rem] overflow-hidden border-2 border-[#D4AF37]/80 shadow-[0_20px_50px_rgba(0,0,0,0.85)] bg-black flex items-center justify-center transition-all duration-300 ring-1 ring-[#FFF3B3]/40"
+              className="group relative w-full max-w-[160px] sm:max-w-[180px] aspect-[9/16] rounded-2xl overflow-hidden border-2 border-[#D4AF37]/80 shadow-[0_15px_35px_rgba(0,0,0,0.85)] bg-black flex items-center justify-center transition-all duration-300 ring-1 ring-[#FFF3B3]/40"
             >
-              {/* Warm Ambient Golden Glow Behind the Video (Pure CSS, 0% GPU video overhead) */}
+              {/* Warm Ambient Golden Glow Behind the Video */}
               <div
                 className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.25)_0%,rgba(74,32,16,0.3)_50%,transparent_85%)] pointer-events-none"
                 aria-hidden="true"
@@ -252,49 +252,49 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
               {/* Gentle Vignette Overlays for Crisp Controls */}
               <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/85 via-transparent to-black/40 pointer-events-none" />
 
-              {/* Sound Prompt Tooltip if Muted */}
+              {/* Sound Prompt Tooltip if Muted - Compact */}
               {showSoundPrompt && isMuted && (
                 <button
                   type="button"
                   onClick={toggleMute}
-                  className="absolute top-3.5 left-3.5 z-20 animate-bounce px-3 py-1.5 rounded-xl bg-[#D4AF37] text-[#241109] font-bold text-[11px] flex items-center gap-1.5 shadow-2xl hover:bg-[#F2DA91] transition-all cursor-pointer"
+                  className="absolute top-2.5 left-2.5 z-20 animate-bounce px-2 py-1 rounded-lg bg-[#D4AF37] text-[#241109] font-bold text-[9px] flex items-center gap-1 shadow-2xl hover:bg-[#F2DA91] transition-all cursor-pointer whitespace-nowrap"
                 >
-                  <Volume2 className="w-3.5 h-3.5 text-[#241109]" />
-                  <span>¡Activar Audio Oficial! 🔊</span>
+                  <Volume2 className="w-3 h-3 text-[#241109] shrink-0" />
+                  <span>Audio 🔊</span>
                 </button>
               )}
 
-              {/* Top Bar Badges */}
-              <div className="absolute top-3.5 right-3.5 z-20 flex items-center gap-2">
+              {/* Top Bar Badges - Compact */}
+              <div className="absolute top-2.5 right-2.5 z-20 flex items-center gap-1">
                 {currentTime < 2.5 ? (
-                  <span className="px-2.5 py-1 rounded-full bg-[#1C0D07]/95 backdrop-blur-md border border-[#D4AF37] text-[10px] font-bold text-[#FDE047] flex items-center gap-1.5 shadow-lg animate-pulse">
-                    <img src="/assets/aistudio/sello_sticker_clean.png" alt="" className="w-3.5 h-3.5 rounded-full object-cover" />
-                    <span>Sello Venezolano</span>
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#1C0D07]/95 backdrop-blur-md border border-[#D4AF37] text-[8px] font-bold text-[#FDE047] flex items-center gap-1 shadow-lg animate-pulse">
+                    <img src="/assets/aistudio/sello_sticker_clean.png" alt="" className="w-3 h-3 rounded-full object-cover" />
+                    <span>Sello</span>
                   </span>
                 ) : (
-                  <span className="px-2 py-0.5 rounded-full bg-[#1C0D07]/90 backdrop-blur-md border border-[#D4AF37]/60 text-[10px] font-bold text-[#F2DA91] flex items-center gap-1 shadow-md">
+                  <span className="px-1.5 py-0.5 rounded-full bg-[#1C0D07]/90 backdrop-blur-md border border-[#D4AF37]/60 text-[8px] font-bold text-[#F2DA91] flex items-center gap-1 shadow-md">
                     <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                    <span>Vitrina 60s HD</span>
+                    <span>60s HD</span>
                   </span>
                 )}
               </div>
 
-              {/* Center Play Button if Paused */}
+              {/* Center Play Button if Paused - Scaled for compact window */}
               {!isPlaying && (
                 <button
                   type="button"
                   onClick={togglePlay}
                   aria-label="Reproducir video"
-                  className="absolute z-20 w-14 h-14 rounded-full bg-[#D4AF37]/95 text-[#241109] flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer"
+                  className="absolute z-20 w-10 h-10 rounded-full bg-[#D4AF37]/95 text-[#241109] flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all cursor-pointer"
                 >
-                  <Play className="w-6 h-6 fill-current ml-0.5" />
+                  <Play className="w-4 h-4 fill-current ml-0.5" />
                 </button>
               )}
 
-              {/* Bottom Video Controls Bar */}
-              <div className="absolute bottom-0 inset-x-0 z-20 p-3 bg-gradient-to-t from-black/95 via-black/75 to-transparent">
+              {/* Bottom Video Controls Bar - Compact */}
+              <div className="absolute bottom-0 inset-x-0 z-20 p-2 bg-gradient-to-t from-black/95 via-black/75 to-transparent">
                 {/* Scrubber Progress Slider */}
-                <div className="relative w-full mb-2 group/scrubber">
+                <div className="relative w-full mb-1 group/scrubber">
                   <input
                     type="range"
                     min="0"
@@ -310,34 +310,28 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
                   />
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-[#E8DAC7]">
+                <div className="flex items-center justify-between text-[9px] text-[#E8DAC7]">
                   {/* Left Controls */}
-                  <div className="flex items-center gap-1.5">
+                  <div className="flex items-center gap-1">
                     <button
                       type="button"
                       onClick={togglePlay}
                       aria-label={isPlaying ? 'Pausar' : 'Reproducir'}
-                      className="p-1 rounded-lg bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#F2DA91] transition-colors"
+                      className="p-1 rounded bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#F2DA91] transition-colors"
                     >
-                      {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current" />}
+                      {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3 fill-current" />}
                     </button>
 
                     <button
                       type="button"
                       onClick={toggleMute}
                       aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
-                      className="p-1 rounded-lg bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#F2DA91] transition-colors flex items-center gap-1"
+                      className="p-1 rounded bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#F2DA91] transition-colors flex items-center gap-0.5"
                     >
                       {isMuted ? (
-                        <>
-                          <VolumeX className="w-3.5 h-3.5 text-[#D9A07E]" />
-                          <span className="text-[9px] font-bold text-[#D9A07E]">Mudo</span>
-                        </>
+                        <VolumeX className="w-3 h-3 text-[#D9A07E]" />
                       ) : (
-                        <>
-                          <Volume2 className="w-3.5 h-3.5 text-[#F2DA91]" />
-                          <span className="text-[9px] font-bold text-[#F2DA91]">Audio</span>
-                        </>
+                        <Volume2 className="w-3 h-3 text-[#F2DA91]" />
                       )}
                     </button>
 
@@ -345,15 +339,15 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
                       type="button"
                       onClick={handleRestart}
                       aria-label="Reiniciar"
-                      className="p-1 rounded-lg bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#E8DAC7] transition-colors"
+                      className="p-1 rounded bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#E8DAC7] transition-colors"
                     >
-                      <RotateCcw className="w-3.5 h-3.5" />
+                      <RotateCcw className="w-3 h-3" />
                     </button>
                   </div>
 
                   {/* Time label */}
-                  <span className="text-[10px] text-[#F2DA91] font-mono tabular-nums">
-                    {Math.floor(currentTime)}s / {Math.floor(duration || 60)}s
+                  <span className="text-[9px] text-[#F2DA91] font-mono tabular-nums">
+                    {Math.floor(currentTime)}s/{Math.floor(duration || 60)}s
                   </span>
 
                   {/* Right Fullscreen Control */}
@@ -361,23 +355,23 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
                     type="button"
                     onClick={handleFullscreen}
                     aria-label="Pantalla completa"
-                    className="p-1 rounded-lg bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#E8DAC7] hover:text-white transition-colors"
+                    className="p-1 rounded bg-[#361A0C]/90 hover:bg-[#4A2516] text-[#E8DAC7] hover:text-white transition-colors"
                   >
-                    <Maximize2 className="w-3.5 h-3.5" />
+                    <Maximize2 className="w-3 h-3" />
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Video Subtitle */}
-            <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-[#C59B74] text-center">
-              <Sparkles className="w-3 h-3 text-[#D4AF37]" />
-              <span>Video Vitrina 60s · Todos los 6 Productos con Narración y Música</span>
+            <div className="mt-2 flex items-center gap-1 text-[10px] text-[#C59B74] text-center max-w-[200px]">
+              <Sparkles className="w-3 h-3 text-[#D4AF37] shrink-0" />
+              <span>Vitrina 60s · 6 Productos</span>
             </div>
           </div>
 
           {/* Right Column: Vitrina Showcase Card */}
-          <div className="lg:col-span-6 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center">
             <div className="relative bg-[#26130B]/95 rounded-2xl border-2 border-[#D4AF37]/50 p-5 sm:p-6 shadow-2xl space-y-4 overflow-hidden">
               {/* Subtle background seal */}
               <div className="absolute -right-8 -bottom-8 w-44 h-44 rounded-full overflow-hidden opacity-10 pointer-events-none select-none mix-blend-screen">
