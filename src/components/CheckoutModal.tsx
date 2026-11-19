@@ -81,7 +81,10 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/65 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/65 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+      onClick={onClose}
+    >
       <div
         className="relative bg-[#FAF5EC] rounded-2xl border border-[#E3D4C0] shadow-2xl max-w-2xl w-full overflow-hidden text-[#3D2214]"
         onClick={(e) => e.stopPropagation()}

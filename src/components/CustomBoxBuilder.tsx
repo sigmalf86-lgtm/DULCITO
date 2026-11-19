@@ -44,6 +44,8 @@ export const CustomBoxBuilder: React.FC<CustomBoxBuilderProps> = () => {
             <img
               src="/assets/aistudio/sello_venezolano_gold.png"
               alt=""
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover filter contrast-125"
             />
           </div>
@@ -56,6 +58,8 @@ export const CustomBoxBuilder: React.FC<CustomBoxBuilderProps> = () => {
                   src={ALL_PRODUCTS_CHRISTMAS_IMAGE_URL}
                   alt="Colección Navideña Completa DULCITO con todos los productos"
                   className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0F0502]/95 via-[#1A0A05]/20 to-transparent pointer-events-none" />

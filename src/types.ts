@@ -30,6 +30,7 @@ export interface Product {
   rating: number;
   reviewsCount: number;
   isBestseller?: boolean;
+  comingSoon?: boolean;
   basePrice: number;
   variants: ProductVariant[];
   ingredients: string[];

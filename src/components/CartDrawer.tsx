@@ -51,7 +51,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-hidden bg-[#241109]/65 backdrop-blur-sm flex justify-end">
+    <div
+      className="fixed inset-0 z-50 overflow-hidden bg-[#241109]/65 backdrop-blur-sm flex justify-end"
+      onClick={onClose}
+    >
       <div
         className="w-full max-w-md bg-[#FAF6F0] h-full shadow-2xl flex flex-col border-l-2 border-[#D4AF37]/50 animate-slide-left"
         onClick={(e) => e.stopPropagation()}
@@ -150,6 +153,8 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({
                       src={itemImg}
                       alt={item.product.name}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
+                      loading="lazy"
+                      decoding="async"
                       referrerPolicy="no-referrer"
                     />
                   </div>

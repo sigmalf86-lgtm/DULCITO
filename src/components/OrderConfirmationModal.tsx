@@ -185,7 +185,10 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
       {/* 3 Full-screen Fireworks Explosions with additive glow and sound */}
       <FireworksCelebration isActive={showFireworks} triggerKey={fireworksKey} />
 
-      <div className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6">
+      <div
+        className="fixed inset-0 z-50 overflow-y-auto bg-[#26150C]/70 backdrop-blur-sm flex items-center justify-center p-4 sm:p-6"
+        onClick={onClose}
+      >
         <div
           className="relative bg-[#FAF5EC] rounded-2xl border border-[#E3D4C0] shadow-2xl max-w-lg w-full overflow-hidden text-[#3D2214] p-6 sm:p-8"
           onClick={(e) => e.stopPropagation()}

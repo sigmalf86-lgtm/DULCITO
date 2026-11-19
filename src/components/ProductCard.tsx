@@ -16,6 +16,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 }) => {
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0]);
   const hasVideo = Boolean(product.videoUrl);
+  const isComingSoon = Boolean(product.comingSoon);
   // Default to 'photo' for lightning-fast first paint on mobile; users can switch to GIF seamlessly
   const [cardMediaMode, setCardMediaMode] = useState<'video' | 'photo'>('photo');
 
@@ -24,10 +25,30 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   }, [product.id, product.variants]);
 
   return (
-    <div className="group relative flex flex-col bg-[#1C0D06]/95 backdrop-blur-md rounded-2xl border-2 border-[#D4AF37]/60 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_35px_rgba(0,0,0,0.85)] hover:border-[#FDE047] ring-1 ring-[#FFF3B3]/40 shadow-2xl">
+    <div
+      className={`group relative flex flex-col backdrop-blur-md rounded-2xl border-2 overflow-hidden transition-all duration-300 shadow-2xl ${
+        isComingSoon
+          ? 'bg-[#0C0502]/95 border-[#D4AF37]/35 ring-1 ring-[#D4AF37]/20'
+          : 'bg-[#1C0D06]/95 border-[#D4AF37]/60 hover:-translate-y-1 hover:shadow-[0_12px_35px_rgba(0,0,0,0.85)] hover:border-[#FDE047] ring-1 ring-[#FFF3B3]/40'
+      }`}
+    >
+      {/* Diagonal Gold "MUY PRONTO" Ribbon across the darkened card */}
+      {isComingSoon && (
+        <div
+          className="absolute inset-x-0 top-[26%] z-30 pointer-events-none select-none flex items-center justify-center overflow-visible"
+          aria-label="Muy Pronto"
+        >
+          <div className="w-[140%] -rotate-[22deg] py-2 sm:py-2.5 bg-gradient-to-r from-[#8E6510] via-[#D4AF37] via-[#FFF4B8] via-[#D4AF37] to-[#8E6510] border-y-2 border-[#FFF9DB] shadow-[0_10px_30px_rgba(0,0,0,0.95)] flex items-center justify-center gap-3">
+            <span className="text-[#241006] font-serif font-black uppercase tracking-[0.28em] text-sm sm:text-base drop-shadow-[0_1px_0_rgba(255,255,255,0.6)]">
+              ★ MUY PRONTO ★
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Media Slot: Video Presentation or Product Photo */}
       {hasVideo ? (
-        <div className="relative w-full bg-[#1F0E07]">
+        <div className={`relative w-full bg-[#1F0E07] ${isComingSoon ? 'brightness-50 saturate-75' : ''}`}>
           {/* Top Switcher Bar between Video Presentation & Photo */}
           <div className="px-3 py-1.5 bg-[#2D160C] border-b border-[#D4AF37]/40 flex items-center justify-between text-xs">
             <div className="flex items-center gap-1.5 font-bold text-[#F2DA91] text-[11px] truncate">
@@ -65,7 +86,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
           {/* Media Viewport */}
           {cardMediaMode === 'video' ? (
-            <div className="w-full">
+            <div className="w-full relative">
               <ProductVideoPlayer
                 videoUrl={product.videoUrl!}
                 productName={product.name}
@@ -75,6 +96,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 interactiveMode="gif-hover"
                 onEnlarge={() => onQuickView(product, 'video')}
               />
+              {isComingSoon && (
+                <div className="absolute inset-0 bg-black/45 pointer-events-none" />
+              )}
             </div>
           ) : (
             <div
@@ -84,10 +108,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover object-center transition-transform duration-600 group-hover:scale-[1.04]"
+                className={`w-full h-full object-cover object-center transition-transform duration-600 ${
+                  isComingSoon ? 'opacity-60' : 'group-hover:scale-[1.04]'
+                }`}
                 referrerPolicy="no-referrer"
                 loading="lazy"
+                decoding="async"
               />
+
+              {isComingSoon && (
+                <div className="absolute inset-0 bg-[#090301]/55 pointer-events-none" />
+              )}
 
               {product.badge && (
                 <div className="absolute top-2.5 left-2.5 bg-[#241109]/95 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-bold text-[#FDE047] border border-[#D4AF37]/70 shadow-md">
@@ -96,7 +127,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               )}
 
               {/* Quick View Button on Photo */}
-              <div className="absolute inset-0 bg-[#241109]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
+              <div className="absolute inset-0 bg-[#241109]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4 z-20">
                 <button
                   type="button"
                   onClick={(e) => {
@@ -116,16 +147,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       ) : (
         /* Regular Product Card Image Slot */
         <div
-          className="relative aspect-[4/3] w-full bg-[#1A0A04] overflow-hidden cursor-pointer"
+          className={`relative aspect-[4/3] w-full bg-[#1A0A04] overflow-hidden cursor-pointer ${
+            isComingSoon ? 'brightness-50 saturate-75' : ''
+          }`}
           onClick={() => onQuickView(product, 'photo')}
         >
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-full object-cover object-center transition-transform duration-600 group-hover:scale-[1.04]"
+            className={`w-full h-full object-cover object-center transition-transform duration-600 ${
+              isComingSoon ? 'opacity-60' : 'group-hover:scale-[1.04]'
+            }`}
             referrerPolicy="no-referrer"
             loading="lazy"
+            decoding="async"
           />
+
+          {isComingSoon && (
+            <div className="absolute inset-0 bg-[#090301]/55 pointer-events-none" />
+          )}
 
           {product.badge && (
             <div className="absolute top-2.5 left-2.5 bg-[#241109]/95 backdrop-blur-sm px-2.5 py-1 rounded-md text-[11px] font-bold text-[#FDE047] border border-[#D4AF37]/70 shadow-md">
@@ -134,7 +174,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
 
           {/* Quick View Hover Overlay */}
-          <div className="absolute inset-0 bg-[#241109]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4">
+          <div className="absolute inset-0 bg-[#241109]/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2 p-4 z-20">
             <button
               type="button"
               onClick={(e) => {
@@ -152,116 +192,133 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       )}
 
       {/* Card Body & Metadata in Luxury Chocolate & Gold */}
-      <div className="relative p-4 sm:p-5 flex flex-col flex-1 bg-[#1C0D06]/95 overflow-hidden">
+      <div
+        className={`relative p-4 sm:p-5 flex flex-col flex-1 overflow-hidden ${
+          isComingSoon ? 'bg-[#0B0402]/95' : 'bg-[#1C0D06]/95'
+        }`}
+      >
         {/* Watermark Logo in Background ("adicional de fondo en marca de agua") */}
         {product.logoUrl && (
           <div
-            className="absolute -right-6 -bottom-6 w-36 h-36 rounded-full overflow-hidden opacity-15 pointer-events-none select-none mix-blend-screen transition-all duration-500 group-hover:opacity-25 group-hover:scale-105"
+            className={`absolute -right-6 -bottom-6 w-36 h-36 rounded-full overflow-hidden pointer-events-none select-none mix-blend-screen transition-all duration-500 ${
+              isComingSoon ? 'opacity-5' : 'opacity-15 group-hover:opacity-25 group-hover:scale-105'
+            }`}
             aria-hidden="true"
           >
             <img
               src={product.logoUrl}
               alt=""
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover filter contrast-125"
             />
           </div>
         )}
 
-        {/* Category, Seal and Rating */}
-        <div className="relative z-10 flex items-center justify-between text-xs text-[#E8D0B5] mb-1.5">
-          <div className="flex items-center gap-1.5 truncate">
-            {product.logoUrl && (
-              <img
-                src={product.logoUrl}
-                alt=""
-                className="w-5 h-5 rounded-full border border-[#D4AF37]/80 object-cover shrink-0 shadow-xs"
-              />
-            )}
-            <span className="uppercase tracking-wider font-bold text-[10px] text-[#FDE047] truncate">
-              {product.categoryLabel}
-            </span>
-          </div>
-
-          <div className="flex items-center gap-1 text-[#D4AF37] shrink-0">
-            <Star className="w-3.5 h-3.5 fill-[#D4AF37] stroke-[#B8860B]" />
-            <span className="font-bold text-[#FFF8EE] tabular-nums text-xs">
-              {product.rating.toFixed(1)}
-            </span>
-            <span className="text-[#CBB096] tabular-nums text-[11px]">
-              ({product.reviewsCount})
-            </span>
-          </div>
-        </div>
-
-        {/* Product Title */}
-        <h3
-          onClick={() => onQuickView(product, hasVideo ? 'video' : 'photo')}
-          className="relative z-10 font-serif font-bold text-base sm:text-lg text-[#FFF8EE] group-hover:text-[#FDE047] transition-colors cursor-pointer leading-snug line-clamp-2 mb-1.5"
-        >
-          {product.name}
-        </h3>
-
-        {/* Tagline snippet */}
-        <p className="relative z-10 text-xs text-[#D9C2AA] line-clamp-2 leading-relaxed mb-3 flex-1">
-          {product.tagline}
-        </p>
-
-        {/* Video presentation highlight pill */}
-        {product.videoCaption && (
-          <div className="relative z-10 mb-3 px-2.5 py-1 bg-[#261007]/90 rounded-lg border border-[#D4AF37]/50 text-[11px] font-medium text-[#FDE047] flex items-center gap-1.5">
-            <span className="text-[#FDE047] shrink-0">✨</span>
-            <span className="truncate font-serif italic text-[#FFF4C2]">
-              GIF animado (Pasa el cursor o toca para reproducir)
-            </span>
-          </div>
-        )}
-
-        {/* Presentation Selector for products with multiple presentations */}
-        {product.variants.length > 1 && (
-          <div className="relative z-10 mb-3 pt-2.5 border-t border-[#D4AF37]/25">
-            <div className="text-[10px] uppercase tracking-wider font-bold text-[#E5C158] mb-1.5 flex items-center justify-between">
-              <span>Elige presentación:</span>
-              <span className="text-[10px] font-normal text-[#CBB096] capitalize truncate max-w-[120px]">
-                {selectedVariant.name}
+        <div className={isComingSoon ? 'opacity-60 flex flex-col flex-1' : 'flex flex-col flex-1'}>
+          {/* Category, Seal and Rating */}
+          <div className="relative z-10 flex items-center justify-between text-xs text-[#E8D0B5] mb-1.5">
+            <div className="flex items-center gap-1.5 truncate">
+              {product.logoUrl && (
+                <img
+                  src={product.logoUrl}
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="w-5 h-5 rounded-full border border-[#D4AF37]/80 object-cover shrink-0 shadow-xs"
+                />
+              )}
+              <span className="uppercase tracking-wider font-bold text-[10px] text-[#FDE047] truncate">
+                {product.categoryLabel}
               </span>
             </div>
-            <div className={`grid gap-1.5 ${product.variants.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
-              {product.variants.map((v) => {
-                const isSelected = selectedVariant.id === v.id;
-                return (
-                  <button
-                    key={v.id}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedVariant(v);
-                    }}
-                    className={`px-2 py-1.5 rounded-lg text-left transition-all border flex flex-col justify-between ${
-                      isSelected
-                        ? 'bg-gradient-to-r from-[#3D1A0D] to-[#4A2010] border-[#FDE047] text-[#FFF8EE] shadow-sm ring-1 ring-[#FDE047]/60'
-                        : 'bg-[#241007]/80 border-[#D4AF37]/35 text-[#D9C2AA] hover:border-[#E5C158]/80 hover:bg-[#2D150B]'
-                    }`}
-                  >
-                    <span className="text-[11px] font-bold truncate block">
-                      {v.size}
-                    </span>
-                    <span
-                      className={`text-[10px] font-semibold tabular-nums mt-0.5 ${
-                        isSelected ? 'text-[#FDE047]' : 'text-[#CBB096]'
-                      }`}
-                    >
-                      ${v.price.toFixed(2)} USD
-                    </span>
-                  </button>
-                );
-              })}
+
+            <div className="flex items-center gap-1 text-[#D4AF37] shrink-0">
+              <Star className="w-3.5 h-3.5 fill-[#D4AF37] stroke-[#B8860B]" />
+              <span className="font-bold text-[#FFF8EE] tabular-nums text-xs">
+                {product.rating.toFixed(1)}
+              </span>
+              <span className="text-[#CBB096] tabular-nums text-[11px]">
+                ({product.reviewsCount})
+              </span>
             </div>
           </div>
-        )}
+
+          {/* Product Title */}
+          <h3
+            onClick={() => onQuickView(product, hasVideo ? 'video' : 'photo')}
+            className="relative z-10 font-serif font-bold text-base sm:text-lg text-[#FFF8EE] group-hover:text-[#FDE047] transition-colors cursor-pointer leading-snug line-clamp-2 mb-1.5"
+          >
+            {product.name}
+          </h3>
+
+          {/* Tagline snippet */}
+          <p className="relative z-10 text-xs text-[#D9C2AA] line-clamp-2 leading-relaxed mb-3 flex-1">
+            {product.tagline}
+          </p>
+
+          {/* Video presentation highlight pill */}
+          {product.videoCaption && (
+            <div className="relative z-10 mb-3 px-2.5 py-1 bg-[#261007]/90 rounded-lg border border-[#D4AF37]/50 text-[11px] font-medium text-[#FDE047] flex items-center gap-1.5">
+              <span className="text-[#FDE047] shrink-0">✨</span>
+              <span className="truncate font-serif italic text-[#FFF4C2]">
+                GIF animado (Pasa el cursor o toca para reproducir)
+              </span>
+            </div>
+          )}
+
+          {/* Presentation Selector for products with multiple presentations */}
+          {product.variants.length > 1 && (
+            <div className="relative z-10 mb-3 pt-2.5 border-t border-[#D4AF37]/25">
+              <div className="text-[10px] uppercase tracking-wider font-bold text-[#E5C158] mb-1.5 flex items-center justify-between">
+                <span>Elige presentación:</span>
+                <span className="text-[10px] font-normal text-[#CBB096] capitalize truncate max-w-[120px]">
+                  {selectedVariant.name}
+                </span>
+              </div>
+              <div className={`grid gap-1.5 ${product.variants.length === 3 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                {product.variants.map((v) => {
+                  const isSelected = selectedVariant.id === v.id;
+                  return (
+                    <button
+                      key={v.id}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedVariant(v);
+                      }}
+                      className={`px-2 py-1.5 rounded-lg text-left transition-all border flex flex-col justify-between ${
+                        isSelected
+                          ? 'bg-gradient-to-r from-[#3D1A0D] to-[#4A2010] border-[#FDE047] text-[#FFF8EE] shadow-sm ring-1 ring-[#FDE047]/60'
+                          : 'bg-[#241007]/80 border-[#D4AF37]/35 text-[#D9C2AA] hover:border-[#E5C158]/80 hover:bg-[#2D150B]'
+                      }`}
+                    >
+                      <span className="text-[11px] font-bold truncate block">
+                        {v.size}
+                      </span>
+                      <span
+                        className={`text-[10px] font-semibold tabular-nums mt-0.5 ${
+                          isSelected ? 'text-[#FDE047]' : 'text-[#CBB096]'
+                        }`}
+                      >
+                        ${v.price.toFixed(2)} USD
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Price & Action Row */}
         <div className="relative z-10 pt-3 border-t border-[#D4AF37]/30 flex items-center justify-between gap-2 mt-auto">
           <div>
+            {isComingSoon ? (
+              <span className="inline-block text-[10px] uppercase tracking-wider font-black text-[#FDE047] mb-0.5">
+                Precio de lanzamiento
+              </span>
+            ) : null}
             <div className="text-[11px] text-[#CBB096] truncate max-w-[150px]">
               {selectedVariant.size}
             </div>
@@ -273,15 +330,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => onAddToCart(product, selectedVariant)}
-            aria-label={`Añadir ${product.name} (${selectedVariant.size}) a la cesta`}
-            className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/80 rounded-xl hover:border-[#FFF8D6] hover:shadow-[0_4px_16px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] whitespace-nowrap shadow-sm"
-          >
-            <ShoppingBag className="w-3.5 h-3.5 text-[#FDE047]" />
-            <span>Añadir</span>
-          </button>
+          {isComingSoon ? (
+            <button
+              type="button"
+              disabled
+              aria-label={`${product.name} disponible muy pronto`}
+              className="px-3.5 py-2 text-xs font-bold text-[#FDE047] bg-[#160904] border border-[#D4AF37]/45 rounded-xl cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap opacity-90"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#D4AF37]" />
+              <span>Muy Pronto</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => onAddToCart(product, selectedVariant)}
+              aria-label={`Añadir ${product.name} (${selectedVariant.size}) a la cesta`}
+              className="px-4 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/80 rounded-xl hover:border-[#FFF8D6] hover:shadow-[0_4px_16px_rgba(212,175,55,0.4)] hover:scale-105 active:scale-95 transition-all flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] whitespace-nowrap shadow-sm"
+            >
+              <ShoppingBag className="w-3.5 h-3.5 text-[#FDE047]" />
+              <span>Añadir</span>
+            </button>
+          )}
         </div>
       </div>
     </div>

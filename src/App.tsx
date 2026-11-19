@@ -1,21 +1,30 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Check } from 'lucide-react';
+import React, { useState, useEffect, useMemo, useRef, lazy, Suspense } from 'react';
+import { Search } from 'lucide-react';
 import { Product, ProductCategory, CartItem, ProductVariant, PlacedOrder } from './types';
 import { PRODUCTS } from './data/products';
 import { Navbar } from './components/Navbar';
 import { CommercialSpotlight } from './components/CommercialSpotlight';
 import { ProductCard } from './components/ProductCard';
-import { ProductDetailModal } from './components/ProductDetailModal';
 import { CustomBoxBuilder } from './components/CustomBoxBuilder';
 import { StorySection } from './components/StorySection';
-import { CartDrawer } from './components/CartDrawer';
-import { CheckoutModal } from './components/CheckoutModal';
-import { OrderConfirmationModal } from './components/OrderConfirmationModal';
 import { Footer } from './components/Footer';
 import { SpinningStarAnise } from './components/SpinningStarAnise';
 import { SeasonalOrnaments, SeasonalSectionDivider } from './components/SeasonalOrnaments';
 import { PWAInstallBanner } from './components/PWAInstallBanner';
 import { SeasonId } from './types/seasons';
+
+const ProductDetailModal = lazy(() =>
+  import('./components/ProductDetailModal').then((m) => ({ default: m.ProductDetailModal }))
+);
+const CartDrawer = lazy(() =>
+  import('./components/CartDrawer').then((m) => ({ default: m.CartDrawer }))
+);
+const CheckoutModal = lazy(() =>
+  import('./components/CheckoutModal').then((m) => ({ default: m.CheckoutModal }))
+);
+const OrderConfirmationModal = lazy(() =>
+  import('./components/OrderConfirmationModal').then((m) => ({ default: m.OrderConfirmationModal }))
+);
 
 const CART_STORAGE_KEY = 'dulcito_cart_v1';
 const SEASON_STORAGE_KEY = 'dulcito_season_v1';
@@ -71,13 +80,23 @@ export default function App() {
     }
   }, [cartItems]);
 
+  const toastTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    };
+  }, []);
+
   const showToast = (msg: string) => {
     setToastMessage(msg);
-    setTimeout(() => setToastMessage(null), 2500);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => setToastMessage(null), 2500);
   };
 
   // Cart Actions
   const handleAddToCart = (product: Product, variant?: ProductVariant, quantity: number = 1) => {
+    if (product.comingSoon) return;
     const targetVariant = variant || product.variants[0];
 
     setCartItems((prev) => {
@@ -387,46 +406,56 @@ export default function App() {
 
       {/* Product Detail Modal */}
       {selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          initialMediaTab={modalInitialTab}
-          onClose={() => setSelectedProduct(null)}
-          onAddToCart={(product, variant, qty) => {
-            handleAddToCart(product, variant, qty);
-          }}
-        />
+        <Suspense fallback={null}>
+          <ProductDetailModal
+            product={selectedProduct}
+            initialMediaTab={modalInitialTab}
+            onClose={() => setSelectedProduct(null)}
+            onAddToCart={(product, variant, qty) => {
+              handleAddToCart(product, variant, qty);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Shopping Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onUpdateQuantity={handleUpdateQuantity}
-        onRemoveItem={handleRemoveItem}
-        onProceedToCheckout={() => setIsCheckoutOpen(true)}
-      />
+      {isCartOpen && (
+        <Suspense fallback={null}>
+          <CartDrawer
+            isOpen={isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            items={cartItems}
+            onUpdateQuantity={handleUpdateQuantity}
+            onRemoveItem={handleRemoveItem}
+            onProceedToCheckout={() => setIsCheckoutOpen(true)}
+          />
+        </Suspense>
+      )}
 
       {/* Checkout Modal */}
       {isCheckoutOpen && (
-        <CheckoutModal
-          isOpen={isCheckoutOpen}
-          onClose={() => setIsCheckoutOpen(false)}
-          items={cartItems}
-          onOrderCompleted={(order) => {
-            setIsCheckoutOpen(false);
-            setCartItems([]);
-            setPlacedOrder(order);
-          }}
-        />
+        <Suspense fallback={null}>
+          <CheckoutModal
+            isOpen={isCheckoutOpen}
+            onClose={() => setIsCheckoutOpen(false)}
+            items={cartItems}
+            onOrderCompleted={(order) => {
+              setIsCheckoutOpen(false);
+              setCartItems([]);
+              setPlacedOrder(order);
+            }}
+          />
+        </Suspense>
       )}
 
       {/* Order Confirmation Receipt Modal */}
       {placedOrder && (
-        <OrderConfirmationModal
-          order={placedOrder}
-          onClose={() => setPlacedOrder(null)}
-        />
+        <Suspense fallback={null}>
+          <OrderConfirmationModal
+            order={placedOrder}
+            onClose={() => setPlacedOrder(null)}
+          />
+        </Suspense>
       )}
 
       {/* Floating In-App PWA Install Banner */}

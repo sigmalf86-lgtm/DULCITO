@@ -1,5 +1,5 @@
 // Dulcito Service Worker - High-Performance Asset Caching
-const CACHE_NAME = 'dulcito-v1';
+const CACHE_NAME = 'dulcito-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -13,7 +13,16 @@ const STATIC_ASSETS = [
   '/assets/aistudio/PAN_DE_JAMON_LOGO_f66ef27c.jpg'
 ];
 
+const isDevHost = () => {
+  const host = self.location.hostname;
+  return host === 'localhost' || host === '127.0.0.1' || host.startsWith('ais-dev-');
+};
+
 self.addEventListener('install', (event) => {
+  if (isDevHost()) {
+    self.skipWaiting();
+    return;
+  }
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return cache.addAll(STATIC_ASSETS).catch(() => {
@@ -28,7 +37,7 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.filter((key) => isDevHost() || key !== CACHE_NAME).map((key) => caches.delete(key))
       );
     })
   );
@@ -36,14 +45,31 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (isDevHost()) {
+    return;
+  }
+
   const url = new URL(event.request.url);
+
+  // Never cache Vite dev/module files or query-versioned deps (prevents duplicate React instances)
+  if (
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/node_modules/') ||
+    url.pathname.startsWith('/@') ||
+    url.pathname.endsWith('.tsx') ||
+    url.pathname.endsWith('.ts') ||
+    url.searchParams.has('v') ||
+    url.searchParams.has('t')
+  ) {
+    return;
+  }
 
   // Never cache heavy videos in Service Worker to avoid device disk filling
   if (url.pathname.endsWith('.mp4') || event.request.destination === 'video') {
     return;
   }
 
-  // Stale-While-Revalidate for images, fonts, styles, and scripts
+  // Stale-While-Revalidate for images, fonts, styles, and built scripts
   if (
     event.request.destination === 'image' ||
     event.request.destination === 'font' ||

@@ -105,6 +105,8 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
           <img
             src="/assets/aistudio/sello_venezolano_gold.png"
             alt=""
+            loading="lazy"
+            decoding="async"
             className="w-[320px] sm:w-[420px] md:w-[480px] max-w-none object-contain opacity-20 filter blur-[0.8px] mix-blend-screen scale-100"
           />
         </div>

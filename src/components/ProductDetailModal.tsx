@@ -27,6 +27,8 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     hasVideo ? (initialMediaTab || 'video') : 'photo'
   );
 
+  const closeTimerRef = React.useRef<number | null>(null);
+
   React.useEffect(() => {
     if (product) {
       setSelectedVariant(product.variants[0]);
@@ -35,19 +37,32 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
     }
   }, [product, initialMediaTab]);
 
+  React.useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    };
+  }, []);
+
   if (!product || !selectedVariant) return null;
 
+  const isComingSoon = Boolean(product.comingSoon);
+
   const handleAddToCart = () => {
+    if (isComingSoon) return;
     onAddToCart(product, selectedVariant, quantity);
     setAddedAnimation(true);
-    setTimeout(() => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
       setAddedAnimation(false);
       onClose();
     }, 600);
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#1A0A04]/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-in">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#1A0A04]/85 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-fade-in"
+      onClick={onClose}
+    >
       <div
         className="relative bg-[#FAF6F0] rounded-2xl border-2 border-[#D4AF37]/70 shadow-2xl max-w-3xl w-full max-h-[92vh] overflow-hidden text-[#361B10] my-auto flex flex-col"
         onClick={(e) => e.stopPropagation()}
@@ -190,10 +205,15 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
             </div>
 
             {/* Title */}
-            <div className="flex items-center gap-2 mb-1">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
               <h2 className="text-xl sm:text-2xl font-serif font-black text-[#361B10] leading-tight">
                 {product.name}
               </h2>
+              {isComingSoon && (
+                <span className="px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#A68019] via-[#FDE047] to-[#D4AF37] text-[#241006] text-[10px] font-black uppercase tracking-wider border border-[#8E6510] shadow-xs">
+                  ★ Muy Pronto ★
+                </span>
+              )}
             </div>
 
             {/* Product Description */}
@@ -279,33 +299,46 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
 
               <div className="flex items-center gap-3">
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-[#8F4828] uppercase tracking-wider font-semibold">Total</span>
+                  <span className="text-[10px] text-[#8F4828] uppercase tracking-wider font-semibold">
+                    {isComingSoon ? 'Precio de lanzamiento' : 'Total'}
+                  </span>
                   <span className="text-xl font-serif font-bold text-[#361B10] tabular-nums">
                     ${(selectedVariant.price * quantity).toFixed(2)}
                   </span>
                 </div>
 
-                <button
-                  type="button"
-                  onClick={handleAddToCart}
-                  className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] ${
-                    addedAnimation
-                      ? 'bg-[#2E7D32] text-white'
-                      : 'bg-gradient-to-r from-[#361B10] via-[#4A2516] to-[#361B10] border border-[#D4AF37]/50 text-white hover:border-[#D4AF37] active:scale-[0.99]'
-                  }`}
-                >
-                  {addedAnimation ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>¡Añadido a la Cesta!</span>
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag className="w-4 h-4 text-[#E5C158]" />
-                      <span>Añadir a la Cesta</span>
-                    </>
-                  )}
-                </button>
+                {isComingSoon ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 bg-[#2A150B] border border-[#D4AF37]/50 text-[#FDE047] cursor-not-allowed opacity-90"
+                  >
+                    <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                    <span>Disponible Muy Pronto</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleAddToCart}
+                    className={`flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] ${
+                      addedAnimation
+                        ? 'bg-[#2E7D32] text-white'
+                        : 'bg-gradient-to-r from-[#361B10] via-[#4A2516] to-[#361B10] border border-[#D4AF37]/50 text-white hover:border-[#D4AF37] active:scale-[0.99]'
+                    }`}
+                  >
+                    {addedAnimation ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>¡Añadido a la Cesta!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-4 h-4 text-[#E5C158]" />
+                        <span>Añadir a la Cesta</span>
+                      </>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           </div>

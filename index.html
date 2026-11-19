@@ -29,14 +29,33 @@
   </head>
   <body class="bg-[#1A0B05] text-[#2C1810] antialiased selection:bg-[#EAD7C3] selection:text-[#3D1E10]">
     <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
     <script>
-      // Register Dulcito high-speed Service Worker on mobile devices
+      // Clean up stale Service Worker caches in dev before module scripts load; register in production
       if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js').catch(() => {});
-        });
+        const host = window.location.hostname;
+        const isDev = host === 'localhost' || host === '127.0.0.1' || host.startsWith('ais-dev-');
+        if (isDev) {
+          const hadController = !!navigator.serviceWorker.controller;
+          Promise.all([
+            navigator.serviceWorker.getRegistrations().then((regs) =>
+              Promise.all(regs.map((reg) => reg.unregister()))
+            ),
+            'caches' in window
+              ? caches.keys().then((keys) => Promise.all(keys.map((key) => caches.delete(key))))
+              : Promise.resolve(),
+          ]).then(() => {
+            if (hadController && !sessionStorage.getItem('dulcito_sw_cleaned')) {
+              sessionStorage.setItem('dulcito_sw_cleaned', '1');
+              window.location.reload();
+            }
+          }).catch(() => {});
+        } else {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+          });
+        }
       }
     </script>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

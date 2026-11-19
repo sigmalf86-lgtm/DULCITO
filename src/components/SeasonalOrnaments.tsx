@@ -284,7 +284,10 @@ export const SeasonalOrnaments: React.FC<SeasonalOrnamentsProps> = ({
 
       {/* 3. MODAL FOR SEASON SELECTION & PREVIEW (Triggered optionally via season switcher) */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          onClick={() => setModalOpen(false)}
+        >
           <div
             className="relative w-full max-w-lg bg-[#180A04] rounded-3xl border-2 border-[#D4AF37] shadow-[0_20px_60px_rgba(0,0,0,0.95)] ring-2 ring-[#FFF3B3]/60 p-6 sm:p-8 text-[#FFF8EE] overflow-hidden"
             onClick={(e) => e.stopPropagation()}

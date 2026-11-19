@@ -1,12 +1,5 @@
 import { Product } from '../types';
 
-import poncheImg from '../assets/images/product_ponche_tradicional_1792413778648.jpg';
-import dulceLecheImg from '../assets/images/product_dulce_leche_artesanal_1792413779635.jpg';
-import alfajoresImg from '../assets/images/product_alfajores_polvorosas_1792413780097.jpg';
-import heroImg from '../assets/images/hero_dulcito_table_1792413778114.jpg';
-
-export { poncheImg, dulceLecheImg, alfajoresImg, heroImg };
-
 export const ALL_PRODUCTS_CHRISTMAS_IMAGE_URL = '/assets/aistudio/n7RgekrjbB3WJPHEori0sC_1793105069738_na1fn_L2hvbWUvdWJ1bnR1L3Byb2R1Y3Rfc2NlbmUvZHVsY2l0b19ncnVwb19uYXZpZGFkX2Nob2NvbGF0ZXNfdmlzaWJsZXM_399a3c3e.webp';
 
 export const VITRINA_SHOWCASE_VIDEO_URL = '/assets/aistudio/VITRINA_CON_SELLO_09528d7d.mp4';
@@ -98,7 +91,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 167,
     isBestseller: true,
-    basePrice: 4.50,
+    comingSoon: true,
+    basePrice: 9.00,
     videoUrl: ALFAJORES_VIDEO_URL,
     videoCaption: 'Presentación en Video: Dulce de leche tradicional narrado con amor familiar.',
     logoUrl: LOGOS.dulceLeche,
@@ -109,7 +103,7 @@ export const PRODUCTS: Product[] = [
       'Elaboración diaria 100% artesanal'
     ],
     variants: [
-      { id: 'ddl-200g', name: 'Frasco Artesanal DULCITO (200 g)', size: '200 g', price: 4.50, inStock: true }
+      { id: 'ddl-200g', name: 'Frasco Artesanal DULCITO (200 g)', size: '200 g', price: 9.00, inStock: false }
     ],
     ingredients: [
       'Pura leche entera de vaca',
@@ -141,7 +135,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 128,
     isBestseller: true,
-    basePrice: 5.00,
+    comingSoon: true,
+    basePrice: 9.00,
     videoUrl: CHOCOLATES_VIDEO_URL,
     videoCaption: 'Presentación en Video: Chocolates Árabes con narración alegre y música festiva.',
     logoUrl: LOGOS.chocolates,
@@ -152,9 +147,9 @@ export const PRODUCTS: Product[] = [
       'Disponible en presentaciones de 6, 12 y 20 piezas'
     ],
     variants: [
-      { id: 'ca-6', name: 'Caja de 6 piezas', size: '6 piezas', price: 5.00, inStock: true },
-      { id: 'ca-12', name: 'Caja de 12 piezas', size: '12 piezas', price: 10.00, inStock: true },
-      { id: 'ca-20', name: 'Caja de 20 piezas', size: '20 piezas', price: 18.00, inStock: true }
+      { id: 'ca-6', name: 'Caja de 6 piezas', size: '6 piezas', price: 9.00, inStock: false },
+      { id: 'ca-12', name: 'Caja de 12 piezas', size: '12 piezas', price: 9.00, inStock: false },
+      { id: 'ca-20', name: 'Caja de 20 piezas', size: '20 piezas', price: 9.00, inStock: false }
     ],
     ingredients: [
       'Cacao criollo venezolano al 70%',
@@ -185,7 +180,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 184,
     isBestseller: true,
-    basePrice: 5.00,
+    comingSoon: true,
+    basePrice: 9.00,
     videoUrl: QUESILLO_VIDEO_URL,
     videoCaption: 'Presentación en Video: Auténtico quesillo venezolano con música tradicional y voz alegre.',
     logoUrl: LOGOS.quesillo,
@@ -196,8 +192,8 @@ export const PRODUCTS: Product[] = [
       'Presentaciones en bandeja pequeña de 250 g y quesillo de 500 g'
     ],
     variants: [
-      { id: 'que-250g', name: 'Bandeja Pequeña (250 g)', size: '250 g', price: 5.00, inStock: true },
-      { id: 'que-500g', name: 'Quesillo Grande (500 g)', size: '500 g', price: 10.00, inStock: true }
+      { id: 'que-250g', name: 'Bandeja Pequeña (250 g)', size: '250 g', price: 9.00, inStock: false },
+      { id: 'que-500g', name: 'Quesillo Grande (500 g)', size: '500 g', price: 9.00, inStock: false }
     ],
     ingredients: [
       'Leche condensada artesanal',
@@ -229,7 +225,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 189,
     isBestseller: true,
-    basePrice: 4.50,
+    comingSoon: true,
+    basePrice: 9.00,
     videoUrl: TEQUENOS_VIDEO_URL,
     videoCaption: 'Spot Publicitario Oficial: Tequeños de queso. Sabor a tradición. Hecho con amor.',
     logoUrl: LOGOS.tequenos,
@@ -240,8 +237,8 @@ export const PRODUCTS: Product[] = [
       'Bandeja de tequeños 20 piezas y gran tequeño de 6 piezas'
     ],
     variants: [
-      { id: 'teq-20', name: 'Bandeja Tequeños (20 piezas)', size: '20 piezas', price: 4.50, inStock: true },
-      { id: 'teq-gran-6', name: 'Bandeja Gran Tequeño (6 piezas)', size: 'Gran tequeño (6 piezas)', price: 8.00, inStock: true }
+      { id: 'teq-20', name: 'Bandeja Tequeños (20 piezas)', size: '20 piezas', price: 9.00, inStock: false },
+      { id: 'teq-gran-6', name: 'Bandeja Gran Tequeño (6 piezas)', size: 'Gran tequeño (6 piezas)', price: 9.00, inStock: false }
     ],
     ingredients: [
       'Queso blanco semiduro llanero tradicional',
@@ -272,7 +269,8 @@ export const PRODUCTS: Product[] = [
     rating: 5.0,
     reviewsCount: 156,
     isBestseller: true,
-    basePrice: 5.00,
+    comingSoon: true,
+    basePrice: 9.00,
     videoUrl: PAN_JAMON_VIDEO_URL,
     videoCaption: 'Spot Publicitario Oficial: El sabor de nuestra Navidad. Hecho con amor.',
     logoUrl: LOGOS.panJamon,
@@ -283,8 +281,8 @@ export const PRODUCTS: Product[] = [
       'Presentación Pequeño y Grande'
     ],
     variants: [
-      { id: 'pdj-pequeno', name: 'Pan de Jamón Pequeño', size: 'Pequeño', price: 5.00, inStock: true },
-      { id: 'pdj-grande', name: 'Pan de Jamón Grande', size: 'Grande', price: 10.00, inStock: true }
+      { id: 'pdj-pequeno', name: 'Pan de Jamón Pequeño', size: 'Pequeño', price: 9.00, inStock: false },
+      { id: 'pdj-grande', name: 'Pan de Jamón Grande', size: 'Grande', price: 9.00, inStock: false }
     ],
     ingredients: [
       'Harina de trigo de fuerza seleccionada',

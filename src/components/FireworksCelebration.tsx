@@ -355,6 +355,7 @@ export const FireworksCelebration: React.FC<FireworksCelebrationProps> = ({
 
       if (!hasPendingActivity && tick > 120) {
         if (onComplete) onComplete();
+        return;
       }
 
       animationFrameId = requestAnimationFrame(render);

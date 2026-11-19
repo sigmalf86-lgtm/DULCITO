@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, RotateCcw, Maximize2, Sparkles, ShoppingBag, ArrowDown, Gift } from 'lucide-react';
-import { VITRINA_SHOWCASE_VIDEO_URL, PRODUCTS } from '../data/products';
+import { Play, Pause, Volume2, VolumeX, RotateCcw, Maximize2, Sparkles } from 'lucide-react';
+import { VITRINA_SHOWCASE_VIDEO_URL } from '../data/products';
 import { SpinningStarAnise } from './SpinningStarAnise';
 import { MetallicRedHeart } from './BrandLogo';
 import { Product, ProductVariant } from '../types';
@@ -18,6 +18,8 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
 }) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const userPausedRef = useRef(false);
+  const heartTimerRef = useRef<number | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
@@ -28,7 +30,8 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
 
   const handleHeartClick = () => {
     setHeartTapped(true);
-    setTimeout(() => setHeartTapped(false), 600);
+    if (heartTimerRef.current) window.clearTimeout(heartTimerRef.current);
+    heartTimerRef.current = window.setTimeout(() => setHeartTapped(false), 600);
   };
 
   useEffect(() => {
@@ -44,14 +47,18 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
       setDuration(video.duration);
     };
 
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+
     const handleEnded = () => {
-      // Loop seamlessly
       video.currentTime = 0;
       video.play().catch(() => {});
     };
 
     video.addEventListener('timeupdate', handleTimeUpdate);
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
     video.addEventListener('ended', handleEnded);
 
     // Pause video when out of screen to save CPU, GPU and battery on mobile
@@ -62,8 +69,7 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
           entries.forEach((entry) => {
             if (!entry.isIntersecting) {
               video.pause();
-              setIsPlaying(false);
-            } else if (isPlaying) {
+            } else if (!userPausedRef.current) {
               video.play().catch(() => {});
             }
           });
@@ -79,8 +85,11 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
     });
 
     return () => {
+      if (heartTimerRef.current) window.clearTimeout(heartTimerRef.current);
       video.removeEventListener('timeupdate', handleTimeUpdate);
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
       video.removeEventListener('ended', handleEnded);
       if (observer) observer.disconnect();
     };
@@ -91,10 +100,12 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
     if (!video) return;
 
     if (video.paused) {
+      userPausedRef.current = false;
       video.play().then(() => {
         setIsPlaying(true);
       }).catch(() => {});
     } else {
+      userPausedRef.current = true;
       video.pause();
       setIsPlaying(false);
     }
@@ -110,6 +121,7 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
     setShowSoundPrompt(false);
 
     if (video.paused) {
+      userPausedRef.current = false;
       video.play().then(() => setIsPlaying(true)).catch(() => {});
     }
   };
@@ -117,6 +129,7 @@ export const CommercialSpotlight: React.FC<CommercialSpotlightProps> = ({
   const handleRestart = () => {
     const video = videoRef.current;
     if (!video) return;
+    userPausedRef.current = false;
     video.currentTime = 0;
     video.play().then(() => setIsPlaying(true)).catch(() => {});
   };
