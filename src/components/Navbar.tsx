@@ -3,6 +3,7 @@ import { ShoppingBag } from 'lucide-react';
 import { BrandLogo } from './BrandLogo';
 import { ChristmasWreathPin } from './ChristmasWreathPin';
 import { RedVelvetRibbonStrip } from './RedVelvetRibbonStrip';
+import { getWhatsAppUrl, notifyWhatsAppAutoReply } from '../utils/whatsapp';
 
 import { SeasonId, SEASONS } from '../types/seasons';
 
@@ -93,9 +94,10 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="flex items-center gap-2 lg:gap-2.5">
               {/* WhatsApp App Logo Button */}
               <a
-                href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%0A%C2%BFEn%20qu%C3%A9%20puedo%20ayudarte%3F"
+                href={getWhatsAppUrl()}
                 target="_blank"
                 rel="noreferrer"
+                onClick={notifyWhatsAppAutoReply}
                 title="WhatsApp: Escríbenos directamente"
                 aria-label="Abrir chat de WhatsApp"
                 className="group relative flex items-center justify-center p-2 rounded-xl border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/70 bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] text-white shadow-[0_2px_8px_rgba(36,16,7,0.35)] hover:border-[#FFF8D6] hover:shadow-[0_4px_16px_rgba(212,175,55,0.45)] hover:scale-105 active:scale-95 transition-all"
@@ -163,9 +165,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#8F6516]/40">
             {/* WhatsApp App Button */}
             <a
-              href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%0A%C2%BFEn%20qu%C3%A9%20puedo%20ayudarte%3F"
+              href={getWhatsAppUrl()}
               target="_blank"
               rel="noreferrer"
+              onClick={notifyWhatsAppAutoReply}
               title="WhatsApp: Escríbenos"
               aria-label="Abrir WhatsApp"
               className="flex-1 flex items-center justify-center gap-1.5 h-8.5 rounded-xl border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/70 bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] text-white shadow-xs active:scale-95 transition-all text-xs font-bold"

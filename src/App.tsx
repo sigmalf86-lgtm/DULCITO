@@ -82,17 +82,25 @@ export default function App() {
 
   const toastTimerRef = useRef<number | null>(null);
 
+  const showToast = (msg: string, durationMs: number = 2500) => {
+    setToastMessage(msg);
+    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
+    toastTimerRef.current = window.setTimeout(() => setToastMessage(null), durationMs);
+  };
+
   useEffect(() => {
+    const handleWhatsAppReply = (e: Event) => {
+      const detail = (e as CustomEvent<string>).detail;
+      if (detail) {
+        showToast(detail, 5000);
+      }
+    };
+    window.addEventListener('dulcito:whatsapp-reply', handleWhatsAppReply);
     return () => {
+      window.removeEventListener('dulcito:whatsapp-reply', handleWhatsAppReply);
       if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
     };
   }, []);
-
-  const showToast = (msg: string) => {
-    setToastMessage(msg);
-    if (toastTimerRef.current) window.clearTimeout(toastTimerRef.current);
-    toastTimerRef.current = window.setTimeout(() => setToastMessage(null), 2500);
-  };
 
   // Cart Actions
   const handleAddToCart = (product: Product, variant?: ProductVariant, quantity: number = 1) => {

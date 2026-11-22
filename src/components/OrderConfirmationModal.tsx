@@ -17,6 +17,7 @@ import {
 import { PlacedOrder } from '../types';
 import { NewAppBadgeLogo } from './BrandLogo';
 import { FireworksCelebration } from './FireworksCelebration';
+import { WHATSAPP_ORDER_MESSAGE, getWhatsAppUrl, notifyWhatsAppAutoReply } from '../utils/whatsapp';
 
 export type OrderTrackingStage = 'preparando' | 'en_camino' | 'entregado';
 
@@ -82,7 +83,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
   // WhatsApp message generator
   const composeWhatsAppMessage = () => {
-    let msg = `*PEDIDO DULCITO - ${order.orderNumber}*\n`;
+    let msg = `${WHATSAPP_ORDER_MESSAGE}\n\n*PEDIDO DULCITO - ${order.orderNumber}*\n`;
 
     // Prominent vendor and dispatch alert for gift bottles earned by purchase volume
     if (earnedBottles > 0) {
@@ -141,10 +142,10 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
     msg += `📸 *Favor enviar comprobantes de pago y el motivo de ese pago por vía WhatsApp para ser procesados.*\n\n`;
     msg += `¡Muchas gracias por preservar nuestras tradiciones! ✨`;
 
-    return encodeURIComponent(msg);
+    return msg;
   };
 
-  const whatsappUrl = `https://wa.me/584248830997?text=${composeWhatsAppMessage()}`;
+  const whatsappUrl = getWhatsAppUrl(composeWhatsAppMessage());
 
   const handleCopySummary = () => {
     let plainText = `Pedido DULCITO #${order.orderNumber}\n`;
@@ -566,6 +567,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={notifyWhatsAppAutoReply}
             className="w-full py-3.5 px-4 bg-[#2E7D32] hover:bg-[#1B5E20] text-white font-semibold text-sm rounded-xl transition-all shadow-md flex items-center justify-center gap-2 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#2E7D32] text-center no-underline"
           >
             <MessageCircle className="w-5 h-5 text-white" />

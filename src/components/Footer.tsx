@@ -5,6 +5,7 @@ import { SpinningStarAnise } from './SpinningStarAnise';
 import { ChristmasWreathPin } from './ChristmasWreathPin';
 import { RedVelvetRibbonStrip } from './RedVelvetRibbonStrip';
 import { usePWAInstall } from '../hooks/usePWAInstall';
+import { getWhatsAppUrl, notifyWhatsAppAutoReply } from '../utils/whatsapp';
 
 interface FooterProps {
   onSelectCategory: (cat: string) => void;
@@ -234,9 +235,10 @@ export const Footer: React.FC<FooterProps> = ({ onSelectCategory }) => {
 
             <div className="pt-1.5 flex flex-wrap gap-2.5">
               <a
-                href="https://wa.me/584248830997?text=Bienvenido%20a%20DULCITO%20%F0%9F%A4%8E%0A%C2%BFEn%20qu%C3%A9%20puedo%20ayudarte%3F"
+                href={getWhatsAppUrl()}
                 target="_blank"
                 rel="noreferrer"
+                onClick={notifyWhatsAppAutoReply}
                 className="inline-flex items-center gap-2 px-3.5 py-2 bg-gradient-to-r from-[#241007] via-[#38180C] to-[#241007] border-2 border-[#D4AF37] ring-1 ring-[#FFF3B3]/70 hover:border-[#FFF8D6] text-white rounded-xl text-xs font-bold transition-all shadow-md hover:scale-105 active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 text-[#FDE047]" />
