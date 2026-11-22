@@ -83,7 +83,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
   // WhatsApp message generator
   const composeWhatsAppMessage = () => {
-    let msg = `${WHATSAPP_ORDER_MESSAGE}\n\n*PEDIDO DULCITO - ${order.orderNumber}*\n`;
+    let msg = `${WHATSAPP_ORDER_MESSAGE}\n\n*PEDIDO DULCITO 🤎 - ${order.orderNumber}*\n`;
 
     // Prominent vendor and dispatch alert for gift bottles earned by purchase volume
     if (earnedBottles > 0) {
@@ -134,7 +134,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
 
     msg += `\n*Subtotal:* $${order.subtotal.toFixed(2)}`;
     if (earnedBottles > 0) {
-      msg += `\n🍾 *Obsequio Dulcito por Volumen:* ${earnedBottles}x Botella${earnedBottles > 1 ? 's' : ''} de Ponche Crema Tradicional *GRATIS* (Incluida${earnedBottles > 1 ? 's' : ''} para entrega)`;
+      msg += `\n🍾 *Obsequio Dulcito 🤎 por Volumen:* ${earnedBottles}x Botella${earnedBottles > 1 ? 's' : ''} de Ponche Crema Tradicional *GRATIS* (Incluida${earnedBottles > 1 ? 's' : ''} para entrega)`;
     }
     msg += `\n*Envío:* Gratis (El empaque acolchado para envíos grandes corre por cuenta del vendedor)`;
     msg += `\n*TOTAL:* $${order.total.toFixed(2)}\n\n`;
@@ -148,7 +148,7 @@ export const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
   const whatsappUrl = getWhatsAppUrl(composeWhatsAppMessage());
 
   const handleCopySummary = () => {
-    let plainText = `Pedido DULCITO #${order.orderNumber}\n`;
+    let plainText = `Pedido DULCITO 🤎 #${order.orderNumber}\n`;
 
     if (earnedBottles > 0) {
       plainText += `🚨 AVISO PARA DESPACHO / VENDEDOR:\n`;
