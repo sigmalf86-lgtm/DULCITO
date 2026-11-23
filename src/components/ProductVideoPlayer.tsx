@@ -8,8 +8,115 @@ interface ProductVideoPlayerProps {
   logoUrl?: string;
   compact?: boolean;
   interactiveMode?: 'gif-hover' | 'modal-full';
+  christmasRibbonOverlay?: boolean;
   onEnlarge?: () => void;
 }
+
+const ChristmasGoldRibbonOverlay: React.FC = () => (
+  <div
+    className="absolute top-0 inset-x-0 z-30 h-[11.5%] min-h-[36px] max-h-[44px] pointer-events-none select-none overflow-hidden shadow-[0_6px_18px_rgba(0,0,0,0.85)]"
+    aria-hidden="true"
+  >
+    {/* Metallic Champagne-Gold Silk Ribbon Base */}
+    <div
+      className="relative w-full h-full flex items-center justify-between px-2.5 sm:px-3.5 border-b-2 border-[#FFF4C8]"
+      style={{
+        background:
+          'linear-gradient(180deg, #7A540B 0%, #D4AF37 15%, #FFF4C8 42%, #F6D365 65%, #C89B2B 88%, #6B4707 100%)',
+      }}
+    >
+      {/* Subtle Silk Sheen Sweep */}
+      <div
+        className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-transparent via-white/45 to-transparent animate-ribbon-sheen"
+      />
+
+      {/* Delicate Stitched Gold Thread Borders */}
+      <div className="absolute inset-x-0 top-[3px] border-t border-dashed border-[#6B4208]/45" />
+      <div className="absolute inset-x-0 bottom-[3px] border-b border-dashed border-[#6B4208]/45" />
+
+      {/* Left Festive Holly, Pine & Berries Cluster (directly over top-left watermark area) */}
+      <svg
+        viewBox="0 0 96 36"
+        className="relative z-10 h-7 sm:h-8 w-auto shrink-0 drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        {/* Pine Sprigs */}
+        <path d="M4 18 Q22 10 46 18" stroke="#184722" strokeWidth="2.4" strokeLinecap="round" />
+        <path d="M8 15 L14 7 M14 14 L22 5 M22 14 L30 6 M30 15 L38 8" stroke="#246331" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M8 21 L14 29 M16 20 L23 29 M25 19 L32 28" stroke="#184722" strokeWidth="1.6" strokeLinecap="round" />
+        {/* Scalloped Holly Leaves with Gold Trim */}
+        <path
+          d="M28 18 C34 10 44 10 52 6 C50 14 54 19 48 25 C40 22 34 25 28 18 Z"
+          fill="#1B4D24"
+          stroke="#FFF4B8"
+          strokeWidth="1"
+        />
+        <path
+          d="M12 18 C16 12 24 12 29 9 C28 15 30 19 26 23 C20 21 16 23 12 18 Z"
+          fill="#246331"
+          stroke="#FFF4B8"
+          strokeWidth="0.9"
+        />
+        {/* Crimson Holly Berries */}
+        <circle cx="30" cy="17" r="3.6" fill="#C8102E" stroke="#FFF4C8" strokeWidth="0.8" />
+        <circle cx="36" cy="20" r="3.2" fill="#E11D48" stroke="#FFF4C8" strokeWidth="0.8" />
+        <circle cx="35" cy="13" r="3.0" fill="#B91C1C" stroke="#FFF4C8" strokeWidth="0.8" />
+        {/* Berry Highlights */}
+        <circle cx="29" cy="16" r="0.9" fill="#FFFFFF" opacity="0.85" />
+        <circle cx="35" cy="19" r="0.8" fill="#FFFFFF" opacity="0.85" />
+        {/* Gold Twinkle */}
+        <path d="M62 18 L64 13 L66 18 L71 20 L66 22 L64 27 L62 22 L57 20 Z" fill="#FFFDF0" opacity="0.9" />
+      </svg>
+
+      {/* Centerpiece Ribbon Crest & Calligraphy */}
+      <div className="relative z-10 flex items-center gap-1.5 sm:gap-2 px-2.5 py-0.5 rounded-full bg-[#241006]/90 border border-[#FFF4C8]/85 shadow-[0_2px_8px_rgba(0,0,0,0.45)]">
+        <span className="text-[#FDE047] text-[9px] sm:text-[10px]">★</span>
+        <span className="font-serif font-black tracking-[0.14em] uppercase text-[9px] sm:text-[11px] text-[#FFF8DC] whitespace-nowrap">
+          DULCITO
+        </span>
+        <span className="text-[#D4AF37] text-[10px] hidden xs:inline">·</span>
+        <span
+          className="text-[13px] sm:text-[15px] text-[#FDE047] leading-none whitespace-nowrap hidden xs:inline"
+          style={{ fontFamily: "'Great Vibes', 'Alex Brush', cursive" }}
+        >
+          Navidad
+        </span>
+        <span className="text-[#FDE047] text-[9px] sm:text-[10px]">★</span>
+      </div>
+
+      {/* Right Mirrored Festive Holly, Pine & Crimson Bow Accent */}
+      <svg
+        viewBox="0 0 96 36"
+        className="relative z-10 h-7 sm:h-8 w-auto shrink-0 transform scale-x-[-1] drop-shadow-[0_2px_3px_rgba(0,0,0,0.45)]"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M4 18 Q22 10 46 18" stroke="#184722" strokeWidth="2.4" strokeLinecap="round" />
+        <path d="M8 15 L14 7 M14 14 L22 5 M22 14 L30 6 M30 15 L38 8" stroke="#246331" strokeWidth="1.6" strokeLinecap="round" />
+        <path d="M8 21 L14 29 M16 20 L23 29 M25 19 L32 28" stroke="#184722" strokeWidth="1.6" strokeLinecap="round" />
+        <path
+          d="M28 18 C34 10 44 10 52 6 C50 14 54 19 48 25 C40 22 34 25 28 18 Z"
+          fill="#1B4D24"
+          stroke="#FFF4B8"
+          strokeWidth="1"
+        />
+        <path
+          d="M12 18 C16 12 24 12 29 9 C28 15 30 19 26 23 C20 21 16 23 12 18 Z"
+          fill="#246331"
+          stroke="#FFF4B8"
+          strokeWidth="0.9"
+        />
+        <circle cx="30" cy="17" r="3.6" fill="#C8102E" stroke="#FFF4C8" strokeWidth="0.8" />
+        <circle cx="36" cy="20" r="3.2" fill="#E11D48" stroke="#FFF4C8" strokeWidth="0.8" />
+        <circle cx="35" cy="13" r="3.0" fill="#B91C1C" stroke="#FFF4C8" strokeWidth="0.8" />
+        <circle cx="29" cy="16" r="0.9" fill="#FFFFFF" opacity="0.85" />
+        <circle cx="35" cy="19" r="0.8" fill="#FFFFFF" opacity="0.85" />
+        <path d="M62 18 L64 13 L66 18 L71 20 L66 22 L64 27 L62 22 L57 20 Z" fill="#FFFDF0" opacity="0.9" />
+      </svg>
+    </div>
+  </div>
+);
 
 export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
   videoUrl,
@@ -18,6 +125,7 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
   logoUrl,
   compact = true,
   interactiveMode = 'gif-hover',
+  christmasRibbonOverlay = false,
   onEnlarge,
 }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -28,7 +136,7 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [isTouchActive, setIsTouchActive] = useState(!isGifMode);
   const [isPlaying, setIsPlaying] = useState(!isGifMode);
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(isGifMode);
   const [progress, setProgress] = useState(0);
 
   // Active state is either hovered on desktop or explicitly activated on mobile
@@ -141,6 +249,9 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
     const next = !isMuted;
     video.muted = next;
     setIsMuted(next);
+    if (!next && video.paused) {
+      video.play().then(() => setIsPlaying(true)).catch(() => {});
+    }
   };
 
   return (
@@ -153,7 +264,7 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
         compact ? 'aspect-[4/3] max-h-[340px]' : 'aspect-[16/10] sm:aspect-[4/3] max-h-[340px]'
       }`}
     >
-      {/* 1. Static Poster Image (Zero GPU/CPU cost when idle, object-contain so logo is never cut off) */}
+      {/* 1. Static Poster Image (Zero GPU/CPU cost when idle, object-contain so bottle is never cut off) */}
       {posterImage && (
         <img
           src={posterImage}
@@ -162,6 +273,7 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
             shouldPlay ? 'opacity-0 z-0' : 'opacity-100 z-10'
           }`}
           loading="lazy"
+          decoding="async"
         />
       )}
 
@@ -179,11 +291,18 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
         />
       )}
 
+      {/* 2b. Christmas Golden Ribbon Overlay (covers top watermark cleanly when playing) */}
+      {christmasRibbonOverlay && shouldPlay && <ChristmasGoldRibbonOverlay />}
+
       {/* 3. Subtle Vignette Overlays */}
       <div className="absolute inset-0 z-15 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none" />
 
       {/* 4. Top Status Badges */}
-      <div className="absolute top-2.5 inset-x-2.5 z-25 flex items-center justify-between pointer-events-none">
+      <div
+        className={`absolute inset-x-2.5 z-25 flex items-center justify-between pointer-events-none ${
+          christmasRibbonOverlay && shouldPlay ? 'top-12 sm:top-13' : 'top-2.5'
+        }`}
+      >
         {/* GIF Mode Indicator Badge */}
         <div className="pointer-events-auto">
           {shouldPlay ? (
@@ -216,8 +335,8 @@ export const ProductVideoPlayer: React.FC<ProductVideoPlayerProps> = ({
               <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
             </div>
             <div className="text-left">
-              <span className="text-xs font-black block text-[#FDE047] leading-tight">Ver en GIF</span>
-              <span className="text-[10px] text-[#D9C2AA] block leading-tight">Pasa el cursor</span>
+              <span className="text-xs font-black block text-[#FDE047] leading-tight">Ver GIF con Sonido</span>
+              <span className="text-[10px] text-[#D9C2AA] block leading-tight">Pasa el cursor o toca</span>
             </div>
           </div>
         </div>

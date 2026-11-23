@@ -363,7 +363,16 @@ h1, h2, h3, h4, .font-display {
   animation: wreath-badge-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Champagne gold silk sheen sweep for Christmas ribbon */
+@keyframes ribbon-sheen {
+  0% {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(260%) skewX(-20deg);
+  }
+}
 
-
-
-
+.animate-ribbon-sheen {
+  animation: ribbon-sheen 4.5s ease-in-out infinite;
+}

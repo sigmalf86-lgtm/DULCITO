@@ -132,6 +132,7 @@ export const ProductDetailModal: React.FC<ProductDetailModalProps> = ({
                       logoUrl={product.logoUrl}
                       compact={false}
                       interactiveMode="modal-full"
+                      christmasRibbonOverlay={product.id === 'ponche-crema-tradicional'}
                     />
                   </div>
                 ) : (

@@ -3,7 +3,7 @@ import { Product } from '../types';
 export const ALL_PRODUCTS_CHRISTMAS_IMAGE_URL = '/assets/aistudio/n7RgekrjbB3WJPHEori0sC_1793105069738_na1fn_L2hvbWUvdWJ1bnR1L3Byb2R1Y3Rfc2NlbmUvZHVsY2l0b19ncnVwb19uYXZpZGFkX2Nob2NvbGF0ZXNfdmlzaWJsZXM_399a3c3e.webp';
 
 export const VITRINA_SHOWCASE_VIDEO_URL = '/assets/aistudio/VITRINA_CON_SELLO_09528d7d.mp4';
-export const OFFICIAL_BRAND_VIDEO_URL = '/assets/aistudio/dulcito_final_con_voz_100ad8c0.mp4';
+export const OFFICIAL_BRAND_VIDEO_URL = '/assets/aistudio/ponche_navidad_10s_c5353d28.mp4';
 export const TEQUENOS_VIDEO_URL = '/assets/aistudio/dulcito_tequenos_queso_final_c0efbc82.mp4';
 export const CHOCOLATES_VIDEO_URL = '/assets/aistudio/video_con_musica_arabe_mas_alta_090909c5.mp4';
 export const QUESILLO_VIDEO_URL = '/assets/aistudio/dulcito_quesillo_voz_musica_final_f1985a57.mp4';
@@ -20,7 +20,7 @@ export const LOGOS = {
 };
 
 export const PRODUCT_PHOTOS = {
-  ponche: '/assets/aistudio/Gemini_Generated_Image_yvqufzyvqufzyvqu_327b65ee.jpg',
+  ponche: '/assets/aistudio/image_2c156867_2a9558f3.jpg',
   dulceLeche: '/assets/aistudio/04_dulce_de_leche_limpio_ab931cfb.png',
   chocolates: '/assets/aistudio/06_chocolates_arabes_limpio_37419348.png',
   quesillo: '/assets/aistudio/01_quesillo_tradicional_limpio_38cd1897.png',

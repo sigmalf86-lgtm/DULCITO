@@ -1,10 +1,11 @@
 // Dulcito Service Worker - High-Performance Asset Caching
-const CACHE_NAME = 'dulcito-v2';
+const CACHE_NAME = 'dulcito-v3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/manifest.json',
   '/assets/aistudio/sello_circle_exact.png',
+  '/assets/aistudio/image_2c156867_2a9558f3.jpg',
   '/assets/aistudio/PONCHE_CREMA_LOGO_bbe2a4ae.jpg',
   '/assets/aistudio/DULCE_DE_LECHE_LOGO_34768add.jpg',
   '/assets/aistudio/CHOCOLATES_LOGO_51b91f48.jpg',

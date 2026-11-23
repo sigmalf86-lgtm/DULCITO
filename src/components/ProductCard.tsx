@@ -17,11 +17,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const [selectedVariant, setSelectedVariant] = useState<ProductVariant>(product.variants[0]);
   const hasVideo = Boolean(product.videoUrl);
   const isComingSoon = Boolean(product.comingSoon);
-  // Default to 'photo' for lightning-fast first paint on mobile; users can switch to GIF seamlessly
-  const [cardMediaMode, setCardMediaMode] = useState<'video' | 'photo'>('photo');
+  // Default Ponche Crema to 'video' (GIF with sound, lightweight lazy decode on hover/tap); others to 'photo'
+  const [cardMediaMode, setCardMediaMode] = useState<'video' | 'photo'>(
+    product.id === 'ponche-crema-tradicional' ? 'video' : 'photo'
+  );
 
   useEffect(() => {
     setSelectedVariant(product.variants[0]);
+    setCardMediaMode(product.id === 'ponche-crema-tradicional' ? 'video' : 'photo');
   }, [product.id, product.variants]);
 
   return (
@@ -94,6 +97,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 logoUrl={product.logoUrl}
                 compact={true}
                 interactiveMode="gif-hover"
+                christmasRibbonOverlay={product.id === 'ponche-crema-tradicional'}
                 onEnlarge={() => onQuickView(product, 'video')}
               />
               {isComingSoon && (
@@ -105,10 +109,24 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               className="relative aspect-[4/3] w-full bg-[#1A0A04] overflow-hidden cursor-pointer"
               onClick={() => onQuickView(product, 'photo')}
             >
+              {product.id === 'ponche-crema-tradicional' && (
+                <img
+                  src={product.image}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover object-center scale-110 blur-md opacity-45 pointer-events-none"
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
               <img
                 src={product.image}
                 alt={product.name}
-                className={`w-full h-full object-cover object-center transition-transform duration-600 ${
+                className={`relative z-10 w-full h-full ${
+                  product.id === 'ponche-crema-tradicional'
+                    ? 'object-contain p-1.5'
+                    : 'object-cover object-center'
+                } transition-transform duration-600 ${
                   isComingSoon ? 'opacity-60' : 'group-hover:scale-[1.04]'
                 }`}
                 referrerPolicy="no-referrer"
